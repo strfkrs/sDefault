@@ -5,7 +5,7 @@ module.exports = {
         pre:"          ",
         name:"..........",
         action:"....................",
-        debug:"_______________________________",
+        debug:"_________________________________",
         controlsMessage:"_______________________"
 
     },
@@ -53,7 +53,7 @@ module.exports = {
             + this.createMessage(msg);
     },
     og: function(pre, object, action, msg) {
-        let _object = (object) ? object : {name:""}
+        const _object = (object) ? object : {name:""}
         console.log(this.create(pre, _object, action, msg));
     },
     controls: function(msg0, msg1) {
@@ -75,18 +75,21 @@ module.exports = {
     },
     debug: function(location, msg) {
 
-        let _msg = (msg) ? msg : location;
-        let _location = (msg) ? location : "";
+        if (Controls.debug()) {
 
-        if (DEBUG) {
-            console.log(this.createCpu()+"DEBUG "+_location.padding(this.paddings.debug, true),_msg);
+            const _msg = (msg) ? msg : location;
+            const _location = (msg) ? location : "";
+            console.log(this.createCpu()
+                + this.createPre("")
+                + "DEBUG "
+                +_location.padding(this.paddings.debug, true),_msg);
         }
     },
     warn: function(msg) {
         console.log(this.create("WARNING ",{name:""},"",msg));
     },
     status: function() {
-        let msg = this.create("",{name:""},"",`CPU sum: ${this.getCpu()} `+
+        const msg = this.create("",{name:""},"",`CPU sum: ${this.getCpu()} `+
         `(${Math.round(this.getCpu() / Game.cpu.limit*100)}%): `+
         `tick limit: ${Math.round(this.getCpu() / Game.cpu.tickLimit*100)}%, `+
         `bucket: ${Math.round(Game.cpu.bucket / 100)}%, `+
