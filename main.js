@@ -17,6 +17,7 @@ require("_Room.autoConstruct");
 require("_Room.clean");
 require("_Room.creeps");
 require("_Room.flags");
+require("_Room.maxWorkers");
 require("_Room.sources");
 require("_Room.structures");
 require("_Room.towers");
