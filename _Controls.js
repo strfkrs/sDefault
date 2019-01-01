@@ -1,12 +1,5 @@
 var l = require("logger");
 module.exports = {
-    toString: function() {
-        return this._printLines(    "functions\n"+
-                                    "     Controls.clearRoomMemory\n"+
-                                    "     Controls.autoConstruct(state)"+
-                                    "           state: undefined/false/true (if undefined, do not touch the memory)\n"+
-                                    "           returns the current state");
-    },
     _print: function(p1, p2) {
 
         let _p2 = (p2) ? p2 : p1;
@@ -54,5 +47,20 @@ module.exports = {
         global._autoConstruct = state;
         Memory.autoConstruct = state;
         return state;
+    },
+    toString: function() {
+
+        let aggressivePlayers = Memory.aggressivePlayers;
+
+        return this._printLines(    "aggressivePlayers: "+(aggressivePlayers ? aggressivePlayers.length : 0)+
+                                    "\nautoConstruct:     "+this.autoConstruct());
+
+    },
+    help: function() {
+        return this._printLines(    "functions\n"+
+                                    "     Controls.clearRoomMemory\n"+
+                                    "     Controls.autoConstruct(state)"+
+                                    "           state: undefined/false/true (if undefined, do not touch the memory)\n"+
+                                    "           returns the current state");
     }
 }
