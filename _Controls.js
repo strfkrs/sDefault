@@ -64,10 +64,34 @@ module.exports = {
         );
 
     },
+    _getDebugState() {
+        if (this._debugState == undefined) {
+            if (Memory.debug == undefined) {
+                Memory.debug = false;
+            }
+            this._debugState = Memory.debug;
+        }
+        return this._debugState;
+    },
+    _setDebugState(state) {
+        Memory.debug = state;
+        this._debugState = state;
+        returnstate;
+    },
+    debug: function(state) {
+        if (state == undefined) {
+            return _getDebugState();
+        } else {
+
+            this._printLines("Setting debug: "+state);
+            return _setDebugState(!(!state));
+        }
+    },
     help: function() {
         return this._printLines(    "functions\n"+
-                                    "     Controls.clearRoomMemory\n"+
-                                    "     Controls.autoConstruct(state)"+
+                                    "     debug(state)"+
+                                    "     clearRoomMemory\n"+
+                                    "     autoConstruct(state)"+
                                     "           state: undefined/false/true (if undefined, do not touch the memory)\n"+
                                     "           returns the current state");
     }
