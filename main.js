@@ -10,7 +10,6 @@ require("_Creep.home");
 require("_Creep.job");
 require("_Creep.moveTo");
 require("_Creep.role");
-require("_Creep.run");
 require("_Flag.surrounds");
 require("_Objects.focussedBy");
 require("_Room.clean");
@@ -40,7 +39,7 @@ module.exports.loop = function() {
     l.og("Creeps",{name:""},"","");
     for (var c in Game.creeps) {
         let creep = Game.creeps[c];
-        creep.run();
+        ROLES[creep.role].run(creep);
     }
 
     l.og("Spawns",{name:""},"","");
@@ -62,7 +61,7 @@ module.exports.loop = function() {
         for (var t in room.towers) {
             let tower = room.towers[t];
             l.og("",{name:tower.id},"","");
-            tower.autoAttack() || tower.autoRepair();
+            tower.attack() || tower.repair();
         }
     }
 

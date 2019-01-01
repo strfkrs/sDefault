@@ -9,8 +9,8 @@ module.exports = {
 
         for (var c = 0; ; c++) {
     
-            let currentParts = bodyParts[c];
-            let cost = this.getArrayCost(currentParts);
+            const currentParts = bodyParts[c];
+            const cost = this.getArrayCost(currentParts);
 
 
             l.debug("util.createCreepBody","round "+c+" currentParts "+JSON.stringify(currentParts)+" cost "+cost);
@@ -36,8 +36,8 @@ module.exports = {
     getArrayCost(parts) {
         let energy = 0;
         for (var p in parts) {
-            let part = parts[p];
-            let cost = BODYPART_COST[part];
+            const part = parts[p];
+            const cost = BODYPART_COST[part];
             l.debug("util.getArrayCost","cost:"+cost);
             energy += cost;
         }
@@ -54,10 +54,11 @@ module.exports = {
         let amount = 1;
         while (true) {
 
-            let job = jobArray[c];
+            const job = jobArray[c];
+            const others = _.filter(creeps, (creep) => creep.job == job);
 
-            let others = _.filter(creeps, (creep) => creep.job == job);
             l.debug("util.getLeastUsedJob:","creeps length "+creeps.length+", "+job+", job: "+amount+">"+others.length+" "+(amount > others.length));
+
             if (amount > others.length) {
                 return job;
             }

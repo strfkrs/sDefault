@@ -1,5 +1,5 @@
-var l = require("logger");
-var utils = require("utils");
+const l = require("logger");
+const utils = require("utils");
 
 var possibleRole = function(role, room) {
     switch (role) {
@@ -29,40 +29,41 @@ Spawn.prototype.autoSpawn = function() {
     if (!this.spawning) {
         let msg = "Spawn.autoSpawn";
         let actionMsg = "";
-        let room = this.room;
-        let roles = [ ROLE_WORKER ];
+        const room = this.room;
+        const roles = [ ROLE_WORKER ];
         msg += " allroles: "+roles.length;
-        let necessaryRoles = _.filter(roles, (role) => necessaryRole(role, room));
+
+        const necessaryRoles = _.filter(roles, (role) => necessaryRole(role, room));
         msg += " necessaryRoles: "+necessaryRoles.length;
         
         if (necessaryRoles.length) {
-            let possibleRoles = _.filter(necessaryRoles, (role) => necessaryRole(role, room) && possibleRole(role, room));
+            const possibleRoles = _.filter(necessaryRoles, (role) => necessaryRole(role, room) && possibleRole(role, room));
     
             msg += " possibleRoles: "+possibleRoles.length;
             if (possibleRoles.length) {
     
                 msg += " - neededLen: "+possibleRoles.length;
-                let role = possibleRoles[0];
-                let name = utils.createCreepName(ROLES[role].name);
-                let data = getRoleData(role);
+                const role = possibleRoles[0];
+                const name = utils.createCreepName(ROLES[role].name);
+                const data = getRoleData(role);
     
 
-                let energy = (room.energyAvailable > getSpawnData(role).maxEnergy) ? getSpawnData(role).maxEnergy : room.energyAvailable;
-                let bodyParts = getSpawnData(role).bodyParts;
+                const energy = (room.energyAvailable > getSpawnData(role).maxEnergy) ? getSpawnData(role).maxEnergy : room.energyAvailable;
+                const bodyParts = getSpawnData(role).bodyParts;
 
                 msg += " - creating body: energy: "+energy+" bodyParts: "+bodyParts;
 
-                let body = utils.createCreepBody(
+                const body = utils.createCreepBody(
                     energy,
                     bodyParts
                 );
                 
-                let status = this.spawnCreep( body, name, data );
+                const status = this.spawnCreep( body, name, data );
 
 
                 if ( status == OK )
                 {
-                    let creep = Game.creeps[name];
+                    const creep = Game.creeps[name];
                     msg += " -> spawned - setting home: "+creep.home.name;
                     actionMsg = "-->";
                     creep.room.creepsAdd(creep);

@@ -28,6 +28,7 @@ module.exports = {
             Memory.aggressivePlayers = [];
         }
         Memory.aggressivePlayers.push (name);
+        return this._printLines(    "addAggressivePlayer: name: "+name);
     },
     clearRoomMemory: function() {
         console.log("clearRoomMemory",undefined,"","");
@@ -35,6 +36,10 @@ module.exports = {
             let room = Game.rooms[r];
             room.memory.creepNames = undefined;
         }
+        return this._printLines(    "clearRoomMemory");
+    },
+    allowAutoConstruct: function() {
+        return this.autoConstruct() && Game.constructionSites.length < 20;
     },
     autoConstruct: function(state) {
         if (state == undefined) {
