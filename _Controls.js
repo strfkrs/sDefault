@@ -38,8 +38,8 @@ module.exports = {
         }
         return this._printLines(    "clearRoomMemory");
     },
-    allowAutoConstruct: function() {
-        return this.autoConstruct() && Game.constructionSites.length < 20;
+    allowWorkerAutoConstruct: function() {
+        return this.autoConstruct() && (Game.constructionSites || Game.constructionSites.length < 20);
     },
     autoConstruct: function(state) {
         if (state == undefined) {
