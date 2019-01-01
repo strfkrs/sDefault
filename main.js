@@ -13,6 +13,7 @@ require("_Creep.role");
 require("_Creep.runActions");
 require("_Flag.surrounds");
 require("_Objects.focussedBy");
+require("_Room.autoConstruct");
 require("_Room.clean");
 require("_Room.creeps");
 require("_Room.flags");
@@ -28,7 +29,7 @@ require("_Tower.autoAttack");
 var l = require("logger");
 var cleanup = require("cleanup");
 
-global.CONTROLS = require("_Controls");
+global.C = require("_Controls");
 
 
 global.DEBUG = true;
