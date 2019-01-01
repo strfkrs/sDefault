@@ -75,10 +75,10 @@ module.exports = {
 
         for (var c = 0; c < creeps.length; c++) {
             const creep = creeps[c];
-            if (sortData[creep.jobs[0]] == undefined) {
-                sortData[creep.jobs[0]] = 1;
+            if (sortData[creep.job] == undefined) {
+                sortData[creep.job] = 1;
             } else {
-                sortData[creep.jobs[0]]++;
+                sortData[creep.job]++;
             }
         }
 
