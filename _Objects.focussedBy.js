@@ -67,7 +67,7 @@ Object.defineProperty(Flag.prototype, 'focussedBy', {
     get: function() {
         
         if (!this._focussedBy) {
-            l.debug("Objects.focussedBy","Reloading Source "+this.id);
+            l.debug("Objects.focussedBy","Reloading Flag "+this.id);
             this._focussedBy = _.filter(this.room.creeps, (c) => c.focus == this);
         }
         

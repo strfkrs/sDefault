@@ -24,7 +24,7 @@ Object.defineProperty(Source.prototype, 'maxWorkers', {
         if (this._maxWorkers == undefined) {
             
             if (this.memory.maxWorkers == undefined) {
-                this.memory.maxWorkers = freeNeighborSpace(source) * 2;
+                this.memory.maxWorkers = freeNeighborSpace(this) * 2;
             }
             
             this._maxWorkers = this.memory.maxWorkers;
