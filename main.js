@@ -29,10 +29,9 @@ require("_Tower.autoAttack");
 var l = require("logger");
 var cleanup = require("cleanup");
 
-global.C = require("_Controls");
+global.Controls = require("_Controls");
 
 
-global.DEBUG = true;
 
 module.exports.loop = function() {
     
