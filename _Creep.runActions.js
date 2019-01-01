@@ -7,12 +7,7 @@ const JOBPADDING = "                              ";
 Creep.prototype.runActions = function () {
 
     let actions = this.actions;
-
-    l.og("",this, "",
-        "Job.runActions(): JOB: "+JOBS[this.job].name.padding(JOBPADDING,false) +
-        " ACTIONS: "+this.actions.map(a => ACTIONS[a].name).join(", ")
-    );
-
+    
     while (actions.length) {
 
         l.og("",this,"",
