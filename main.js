@@ -22,8 +22,8 @@ require("_Room.towers");
 require("_Source.maxWorkers");
 require("_Source.memory");
 require("_Spawn.autoSpawn");
-require("_Tower.repair");
-require("_Tower.attack");
+require("_Tower.autoRepair");
+require("_Tower.autoAttack");
 
 var l = require("logger");
 var cleanup = require("cleanup");
