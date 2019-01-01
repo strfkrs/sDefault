@@ -80,11 +80,11 @@ module.exports = {
     },
     debug: function(state) {
         if (state == undefined) {
-            return _getDebugState();
+            return this._getDebugState();
         } else {
 
             this._printLines("Setting debug: "+state);
-            return _setDebugState(!(!state));
+            return this._setDebugState(!(!state));
         }
     },
     help: function() {
