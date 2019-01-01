@@ -37,27 +37,30 @@ module.exports = {
     autoConstructRoad: function() {
         return this.autoConstruct() && (Game.constructionSites || Game.constructionSites.length < 20);
     },
-    autoConstruct: function(state) {
-        if (state == undefined) {
-            if (!global._autoConstruct) {
-                if (Memory.autoConstruct) { global._autoConstruct = true }
-                else { global._autoConstruct = false }
+    autoConstruct: function(roomName, state) {
+
+        const room = Game.rooms[roomName];
+
+        if (room) {
+            
+            if (state == undefined) {
+                return room.autoConstruct;
+            } else {
+                room.autoConstruct = state;
             }
-            return global._autoConstruct;
+
+            return state;
         }
-        global._autoConstruct = state;
-        Memory.autoConstruct = state;
-        return state;
+
+        this._printLines("Controls.autoConstruct: ERROR, room not found");
     },
     toString: function() {
 
         const aggressivePlayers = Memory.aggressivePlayers;
 
         return this._printLines(    
-            "CONTROLS"+
-            "\n"+
-            "\naggressivePlayers:\t"+(aggressivePlayers ? aggressivePlayers.length : 0)+
-            "\nautoConstruct:\t"+this.autoConstruct()
+            "CONTROLS\n"+
+            "\naggressivePlayers:\t"+(aggressivePlayers ? aggressivePlayers.length : 0)
         );
 
     },
