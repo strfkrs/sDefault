@@ -22,8 +22,8 @@ require("_Room.towers");
 require("_Source.maxWorkers");
 require("_Source.memory");
 require("_Spawn.autoSpawn");
-require("_Tower.autoRepair");
-require("_Tower.autoAttack");
+require("_Tower.repair");
+require("_Tower.attack");
 
 var l = require("logger");
 var cleanup = require("cleanup");
@@ -31,7 +31,7 @@ var cleanup = require("cleanup");
 global.CONTROLS = require("_Controls");
 
 
-global.DEBUG = false;
+global.DEBUG = true;
 
 module.exports.loop = function() {
     
