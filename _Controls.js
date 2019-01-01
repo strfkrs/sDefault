@@ -1,21 +1,17 @@
-var l = require("logger");
+const l = require("logger");
 module.exports = {
     _print: function(p1, p2) {
 
-        let _p2 = (p2) ? p2 : p1;
-        let _p1 = (p2) ? p1 : "";
-
-
-        l.og("CONTROLS",undefined,_p1,_p2);
+        l.controls((p1) ? p1 : "", (p2) ? p2 : "");
     },
     _printLines: function(text) {
 
-        let lines = (`\n\n${text}\n\n`).split('\n');
+        const lines = (`\n\n${text}\n\n`).split('\n');
 
         for (var li = 0; li < lines.length; li++) {
-            let line = lines[li];
+            const line = lines[li];
             if (line.includes('\t')) {
-                let parts = line.split('\t');
+                const parts = line.split('\t');
                 this._print(parts[0], parts[1]);
             } else {
                 this._print(line);
@@ -28,15 +24,15 @@ module.exports = {
             Memory.aggressivePlayers = [];
         }
         Memory.aggressivePlayers.push (name);
-        return this._printLines(    "addAggressivePlayer: name: "+name);
+        return this._printLines( "addAggressivePlayer"," name: "+name);
     },
     clearRoomMemory: function() {
         console.log("clearRoomMemory",undefined,"","");
         for (var r in Game.rooms) {
-            let room = Game.rooms[r];
+            const room = Game.rooms[r];
             room.memory.creepNames = undefined;
         }
-        return this._printLines(    "clearRoomMemory");
+        return this._printLines("clearRoomMemory");
     },
     autoConstructRoad: function() {
         return this.autoConstruct() && (Game.constructionSites || Game.constructionSites.length < 20);
@@ -55,10 +51,14 @@ module.exports = {
     },
     toString: function() {
 
-        let aggressivePlayers = Memory.aggressivePlayers;
+        const aggressivePlayers = Memory.aggressivePlayers;
 
-        return this._printLines(    "aggressivePlayers: "+(aggressivePlayers ? aggressivePlayers.length : 0)+
-                                    "\nautoConstruct:     "+this.autoConstruct());
+        return this._printLines(    
+            "CONTROLS"+
+            "\n"+
+            "\naggressivePlayers:\t"+(aggressivePlayers ? aggressivePlayers.length : 0)+
+            "\nautoConstruct:\t"+this.autoConstruct()
+        );
 
     },
     help: function() {

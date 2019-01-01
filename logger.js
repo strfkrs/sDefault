@@ -5,7 +5,9 @@ module.exports = {
         pre:"          ",
         name:"..........",
         action:"....................",
-        debug:"_______________________________"
+        debug:"_______________________________",
+        controlsMessage:"_______________________"
+
     },
     init: function() {
         this.timestamp = Game.cpu.getUsed();
@@ -53,6 +55,17 @@ module.exports = {
     og: function(pre, object, action, msg) {
         let _object = (object) ? object : {name:""}
         console.log(this.create(pre, _object, action, msg));
+    },
+    controls: function(msg0, msg1) {
+        
+        const _p0 = (msg0 != "") ? ` ${msg0} ` : "";
+        const _p1 = (msg1 != "") ? `${msg1} ` : "";
+
+        console.log(    this.createCpu()+
+                        this.createPre("CONTROLS")+
+                        _p0.padding(this.paddings.controlsMessage, true)+
+                        _p1
+        );
     },
     log: function(msg) {
         console.log(this.create("",{name:""},"",msg));
