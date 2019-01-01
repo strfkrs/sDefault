@@ -92,7 +92,7 @@ module.exports = {
         return sortData;
     },
     sortJobsByWorkers(workers, jobs) {
-        let jobAmounts = getJobAmounts(workers, jobs);
+        let jobAmounts = this.getJobAmounts(workers, jobs);
 
         return jobs.sort((a,b) => jobAmounts[a] - jobAmounts[b]);
 

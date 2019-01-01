@@ -10,7 +10,7 @@ require("_Creep.home");
 require("_Creep.job");
 require("_Creep.moveTo");
 require("_Creep.role");
-require("_Creep.runAction");
+require("_Creep.runActions");
 require("_Flag.surrounds");
 require("_Objects.focussedBy");
 require("_Room.clean");

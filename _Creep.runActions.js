@@ -1,5 +1,9 @@
 
 const l = require("logger");
+
+const ACTIONPADDING = "                              ";
+const JOBPADDING = "                              ";
+
 Creep.prototype.runActions = function () {
 
     let actions = this.actions;
@@ -11,7 +15,7 @@ Creep.prototype.runActions = function () {
 
     while (actions.length) {
 
-        l.og("",this, ((gotAssignedActions) ? " assigned > " : ""),
+        l.og("",this,"",
             "JOB: "+JOBS[this.job].name.padding(JOBPADDING,false) +
             " ACTIONS: "+this.actions.map(a => ACTIONS[a].name).join(", ")
         );

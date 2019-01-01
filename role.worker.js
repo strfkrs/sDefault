@@ -1,10 +1,6 @@
 const l = require("logger");
 const utils = require("utils");
 
-const ACTIONPADDING = "                              ";
-const JOBPADDING = "                              ";
-
-
 module.exports = {
     name: "worker",
     getId: function() { return ROLE_WORKER },
@@ -61,8 +57,7 @@ module.exports = {
             */
             if (creep.job == JOB_UNDEFINED) {
                 creep.job = this._getJob(creep);
-                actions = JOBS[job].getActions(creep);
-                gotAssignedActions = true;
+                creep.actions = JOBS[creep.job].getActions(creep);
             }
 
             /*
