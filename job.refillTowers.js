@@ -1,9 +1,5 @@
-var l = require("logger");
-
-
 module.exports = {
     name: "refillTowers",
-    getActions: function(creep) {
-        return [ACTION_HARVEST, ACTION_TRANSFER_TO_TOWERS];
-    }
+    getId: function() { return JOB_REFILL_TOWERS },
+    getActions: function() { return [ACTION_HARVEST, ACTION_TRANSFER_TO_TOWERS] }
 }

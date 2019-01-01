@@ -38,7 +38,7 @@ module.exports = {
         }
         return this._printLines(    "clearRoomMemory");
     },
-    allowWorkerAutoConstruct: function() {
+    autoConstructRoad: function() {
         return this.autoConstruct() && (Game.constructionSites || Game.constructionSites.length < 20);
     },
     autoConstruct: function(state) {

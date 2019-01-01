@@ -1,9 +1,5 @@
-var l = require("logger");
-
-
 module.exports = {
     name: "upgrade",
-    getActions: function(creep) {
-        return [ACTION_HARVEST, ACTION_UPGRADE];
-    }
+    getId: function() { return JOB_UPGRADE },
+    getActions: function() { return [ACTION_HARVEST, ACTION_UPGRADE] }
 }

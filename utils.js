@@ -70,11 +70,35 @@ module.exports = {
             }
         }
     },
+    getJobAmounts(creeps, jobs) {
+        let sortData = {};
+
+        for (var c = 0; c < creeps.length; c++) {
+            const creep = creeps[c];
+            if (sortData[creep.jobs[0]] == undefined) {
+                sortData[creep.jobs[0]] = 1;
+            } else {
+                sortData[creep.jobs[0]]++;
+            }
+        }
+
+        for (var j = 0; j < jobs.length; j++) {
+            const job = jobs[j];
+            if (sortData[job] == undefined) {
+                sortData[job] = 0;
+            }
+        }
+
+        return sortData;
+    },
+    sortJobsByWorkers(workers, jobs) {
+        let jobAmounts = getJobAmounts(workers, jobs);
+
+        return jobs.sort((a,b) => jobAmounts[a] - jobAmounts[b]);
+
+    },
     randChoice: function(array) {
         return [Math.round(Math.random()*this._messages.length)];
-    },
-    getEmptySpyFlags() {
-        return _.filter(Game.flags, (f) => f.name.includes("Spy") && f.subscribers.length == 0);
     },
     aggressivePlayer(creep) {
 

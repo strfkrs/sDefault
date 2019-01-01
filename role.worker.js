@@ -38,67 +38,39 @@ module.exports = {
 
             if (this._needsRefillStructuresJob(room)) {
 
-                necessary.push(JOB_REFILL_STRUCTURES);
+                // refill structures
+
+                necessary.unshift(JOB_REFILL_STRUCTURES);
             }
 
             if (this._needsBuildJob(room)) {
-                
-                necessary.push(JOB_BUILD);
+
+                // build
+
+                necessary.unshift(JOB_BUILD);
             }
         }
 
-        return utils.getLeastUsedJob(room.creeps, necessary);
+        return utils.sortJobsByWorkers(room.creeps, necessary)[0];
     },
     run: function(creep) {
         if (!creep.spawning) {
 
-            let gotAssignedActions = false;
-        
             /*
-            *      get jobs
+            *      get job
             */
             if (creep.job == JOB_UNDEFINED) {
                 creep.job = this._getJob(creep);
-            }
-        
-            /*
-            *      get actions from job
-            */
-            if (!creep.actions.length) {
-                creep.actions = JOBS[creep.job].getActions(creep);
+                actions = JOBS[job].getActions(creep);
                 gotAssignedActions = true;
             }
-        
+
             /*
-            *      run action
+            *      run actions
             */
-            let actions = creep.actions;
-        
-            //let actionMsg = creep.actions.map(a => ACTIONS[a].name.padding(ACTIONPADDING,false)).join(", ");
-            let actionMsg = creep.actions.map(a => ACTIONS[a].name).join(", ")
-        
-            l.og("",creep, ((gotAssignedActions) ? " assigned > " : ""),
-                "JOB: "+JOBS[creep.job].name.padding(JOBPADDING,false) +
-                " ACTIONS: "+actionMsg );
-        
-        
-            while (actions.length) {
-            
-                if (ACTIONS[actions[0]].run(creep)) {
-                    l.debug("Creep.run","action "+actions[0]+" -> returned true");
-                    break;
-                }
-                else {
-                    l.debug("Creep.run","action "+actions[0]+" -> returned false");
-                    actions.shift();
-                    creep.actions = actions;
-                    creep.focus = undefined;
-                }
-            }
-        
-            if (!actions.length) {
+
+            if (!creep.runActions()) {
                 creep.job = JOB_UNDEFINED;
-                creep.focus = undefined;
             }
         }
     }
