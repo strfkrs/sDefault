@@ -70,31 +70,39 @@ module.exports = {
             }
         }
     },
-    getJobAmounts(creeps, jobs) {
+    amountOfElementsInArray(elements, array) {
         let sortData = {};
 
-        for (var c = 0; c < creeps.length; c++) {
-            const creep = creeps[c];
-            if (sortData[creep.job] == undefined) {
-                sortData[creep.job] = 1;
+        for (var c = 0; c < elements.length; c++) {
+            const element = elements[c];
+            if (sortData[element] == undefined) {
+                sortData[element] = 1;
             } else {
-                sortData[creep.job]++;
+                sortData[element]++;
             }
         }
 
-        for (var j = 0; j < jobs.length; j++) {
-            const job = jobs[j];
-            if (sortData[job] == undefined) {
-                sortData[job] = 0;
+        for (var j = 0; j < array.length; j++) {
+            const element = array[j];
+            if (sortData[element] == undefined) {
+                sortData[element] = 0;
             }
         }
 
         return sortData;
-    },
-    sortJobsByWorkers(workers, jobs) {
-        let jobAmounts = this.getJobAmounts(workers, jobs);
 
+    },
+
+    sortJobsByWorkers(workers, jobs) {
+
+        let jobAmounts = this.amountOfElementsInArray(workers.map((creep) => creep.job), jobs);
         return jobs.sort((a,b) => jobAmounts[a] - jobAmounts[b]);
+
+    },
+    sortRolesByWorkers(workers, roles) {
+
+        let roleAmounts = this.getRoleAmounts(workers.map((creep) => creep.role), roles);
+        return roles.sort((a,b) => roleAmounts[a] - roleAmounts[b]);
 
     },
     randChoice: function(array) {
