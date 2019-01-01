@@ -11,6 +11,25 @@ if (!Creep.prototype._moveTo) {
                 }
             }
         }
-        return this._moveTo(arg1, arg2, arg3);
+
+        //save old pos
+        const oldPos = this.pos;
+
+        //move
+        const status = this._moveTo(arg1, arg2, arg3);
+
+        if (status == OK) {
+            const newPos = this.pos;
+
+            if (oldPos.room != newPos.room) {
+
+                // if moved into another room
+                // un/register creep in room.creeps
+                oldPos.room.creepsRemoveByName(this.name);
+                newPos.room.creepsAdd(this);
+            }
+        }
+
+        return status;
     }
 }
