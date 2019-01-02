@@ -20,8 +20,9 @@ var isNecessaryRole = function(role, room) {
 
     switch (role) {
         case ROLE_WORKER:
-        
-        ret = true;
+            l.debug("Spawn.autoSpawn","role "+ROLES[role].name+" "+room.workers.length+" < "+room.maxWorkers);
+            ret = room.workers.length < room.maxWorkers;
+        break;
     }
 
     l.debug("Spawn.autoSpawn","role "+ROLES[role].name+" isNecessary: "+ret);
@@ -38,15 +39,11 @@ var getPossibleRoles = function(room) {
 }
 
 var getSpawnData = function(role) {
+
     switch(role) {
-        default: return {bodyParts:[[MOVE,CARRY,WORK]], minEnergy: 200, maxEnergy: 800};
+        case ROLE_WORKER: return {bodyParts:[[MOVE,CARRY,WORK]], minEnergy: 200, maxEnergy: 800, data:{memory:{role:role}}};
     }
 }
-
-var getRoleData = function (role) {
-    return {memory:{role:role}}
-}
-
 Spawn.prototype.autoSpawn = function() {
     if (!this.spawning) {
         let actionMsg = "";
@@ -61,12 +58,13 @@ Spawn.prototype.autoSpawn = function() {
                 let msg2 = "";
     
                 const role = possibleRoles[0];
+                const spawnData = getSpawnData(role);
                 const name = utils.createCreepName(ROLES[role].name);
-                const data = getRoleData(role);
+                const data = spawnData.data;
     
 
-                const energy = (room.energyAvailable > getSpawnData(role).maxEnergy) ? getSpawnData(role).maxEnergy : room.energyAvailable;
-                const bodyParts = getSpawnData(role).bodyParts;
+                const energy = (room.energyAvailable > spawnData.maxEnergy) ? spawnData.maxEnergy : room.energyAvailable;
+                const bodyParts = spawnData.bodyParts;
 
                 msg2 += " - creating body: energy: "+energy+" bodyParts: "+bodyParts;
 
