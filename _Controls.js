@@ -90,7 +90,7 @@ module.exports = {
     _getLogState() {
         if (this._logState == undefined) {
             if (Memory.log == undefined) {
-                Memory.log = false;
+                Memory.log = true;
             }
             this._logState = Memory.log;
         }
