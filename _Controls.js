@@ -87,6 +87,28 @@ module.exports = {
             return this._setDebugState(!(!state));
         }
     },
+    _getLogState() {
+        if (this._logState == undefined) {
+            if (Memory.log == undefined) {
+                Memory.log = false;
+            }
+            this._logState = Memory.log;
+        }
+        return this._logState;
+    },
+    _setLogState(state) {
+        Memory.log = state;
+        this._logState = state;
+        return state;
+    },
+    log: function(state) {
+        if (state == undefined) {
+            return this._getLogState();
+        } else {
+            this._printLines("Setting log:\t"+state);
+            return this._setLogState(!(!state));
+        }
+    },
     help: function() {
         return this._printLines(    "functions\n"+
                                     "     debug(state)"+

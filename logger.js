@@ -57,8 +57,11 @@ module.exports = {
     **      l.og(pre, object, action, msg)
     */
     og: function(pre, object, action, msg) {
-        const _object = (object) ? object : {name:""}
-        console.log(this._create(pre, _object, action, msg));
+        if (Controls.log()) {
+
+            const _object = (object) ? object : {name:""}
+            console.log(this._create(pre, _object, action, msg));
+        }
     },
     /*
     **      l.controls(msg0, msg1)
