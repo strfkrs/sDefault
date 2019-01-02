@@ -16,16 +16,17 @@ module.exports = {
 
         let necessary = [];
         const room = creep.home;
-        const creepsLen = room.creeps.length;
+        const workersLen = room.workers.length;
         
-        if ( creepsLen < 2 ) {
+        if ( workersLen < 2 ) {
             /*
             **      early jobs
             */
             necessary = [ JOB_REFILL_STRUCTURES, JOB_REFILL_TOWERS ];
 
         } else {
-            if (creepsLen < room.maxWorkers) {
+            l.debug("role.worker._getJob "+workersLen+" < "+room.maxWorkers);
+            if (true) {
                 /*
                 **      normal jobs
                 */
@@ -60,7 +61,7 @@ module.exports = {
                 creep.actions = JOBS[creep.job].getActions(creep);
             }
             /*
-            **     run actions
+            **     run action(s)
             */
             if (!creep.runActions()) {
                 creep.job = JOB_UNDEFINED;
