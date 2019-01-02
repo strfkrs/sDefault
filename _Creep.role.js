@@ -9,7 +9,7 @@ Object.defineProperty(Creep.prototype, 'role', {
         return this._role;
     },
     set: function(v) {
-        this.memory.role = v.id;
+        this.memory.role = v;
         this._role = v;
     },
     enumerable: false,
