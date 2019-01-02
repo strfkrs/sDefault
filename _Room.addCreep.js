@@ -1,3 +1,4 @@
+const l = require("logger");
 Room.prototype.addCreep = function(creep) {
 
     l.debug("Room.addCreep: "+creep.name);

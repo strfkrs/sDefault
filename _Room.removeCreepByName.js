@@ -1,4 +1,4 @@
-
+const l = require("logger");
 
 Room.prototype.removeCreepByName = function(creep, role) {
 
@@ -22,7 +22,7 @@ Room.prototype.removeCreepByName = function(creep, role) {
     }
 
 
-    let creepNames = this.memory.workerNames.slice(0);
+    creepNames = this.memory.workerNames.slice(0);
     if (creepNames.includes(_name)) {
 
         const index = creepNames.indexOf(_name);
