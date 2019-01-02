@@ -17,7 +17,7 @@ Room.prototype.workersAdd = function(worker) {
 
     let workers = this.workers;
     if (!workers.includes(worker)) {
-        workers.push(creep);
+        workers.push(worker);
     
         this._workers = workers;
         this.memory.workerNames.push(worker.name);
@@ -35,7 +35,7 @@ Room.prototype.workersRemoveByName = function(workerName) {
             names.splice(index, 1);
     
             this.memory.workerNames = names;
-            this._creeps = names.map(name => Game.creeps[name]);
+            this._workers = names.map(name => Game.creeps[name]);
         }
     }
 }
