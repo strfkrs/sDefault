@@ -42,6 +42,7 @@ module.exports.loop = function() {
     l.og("Creeps",{name:""},"","");
     for (var c in Game.creeps) {
         let creep = Game.creeps[c];
+        l.og("",creep,"",creep+" "+creep.role);
         ROLES[creep.role].run(creep);
     }
 
@@ -54,10 +55,11 @@ module.exports.loop = function() {
     l.og("Rooms",{name:""},"","");
     for (var r in Game.rooms) {
         let room = Game.rooms[r];
-        let msg =   "Creeps : "+room.creeps.length+
+        let msg =   "Creeps: "+room.creeps.length+
+                    " Workers: "+room.workers.length+
                     " Structures: "+room.structures.length+
                     " Towers: "+room.towers.length;
-        l.og("",{name:""},"",msg);
+        l.og("",room,"",msg);
 
         l.og("Towers",{name:""},"","");
         
@@ -67,19 +69,5 @@ module.exports.loop = function() {
             tower.attack() || tower.repair();
         }
     }
-
-    /*
-    l.og(" Rooms ",{name:""},"","");
-    for (var r in Game.rooms) {
-        let room = Game.rooms[r];
-
-
-        l.og(" Sources ",{name:""},"","");
-        for (var sr in room.sources) {
-            let source = room.sources[sr];
-            l.og("",{name:source.id},"","maxWorkers: "+source.maxWorkers);
-        }
-    }*/
-
     l.status();
 }
