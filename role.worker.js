@@ -30,7 +30,7 @@ module.exports = {
                 /*
                 **      normal jobs
                 */
-                necessary = [ JOB_REFILL_STRUCTURES, JOB_REFILL_TOWERS, JOB_UPGRADE ];
+                necessary = [ JOB_REFILL_TOWERS, JOB_UPGRADE ];
 
                 if (this._needsRefillStructuresJob(room)) {
                     /*
