@@ -30,12 +30,14 @@ require("_Spawn.autoSpawn");
 require("_Tower.autoRepair");
 require("_Tower.autoAttack");
 
+var hello = ("hello");
+
 var l = require("logger");
 var cleanup = require("cleanup");
 
 global.Controls = require("_Controls");
 
-
+hello();
 
 module.exports.loop = function() {
     
