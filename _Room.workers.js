@@ -1,3 +1,5 @@
+const l = require("logger");
+
 Object.defineProperty(Room.prototype, 'workers', {
     get: function() {
         if (this._workers == undefined) {
@@ -9,33 +11,11 @@ Object.defineProperty(Room.prototype, 'workers', {
         }
         return this._workers;
     },
+    set: function(newValue) {
+        
+        this.memory.workerNames = newValue.map(f => f.name);
+        this._workers = newValue;
+    },
     enumerable: false,
     configurable: true
 });
-
-Room.prototype.workersAdd = function(worker) {
-
-    let workers = this.workers;
-    if (!workers.includes(worker)) {
-        workers.push(worker);
-    
-        this._workers = workers;
-        this.memory.workerNames.push(worker.name);
-    }
-}
-
-Room.prototype.workersRemoveByName = function(workerName) {
-
-    let names = this.memory.workerNames.slice(0);
-    if (names.includes(workerName)) {
-
-        const index = names.indexOf(workerName);
-        if (index > -1) {
-    
-            names.splice(index, 1);
-    
-            this.memory.workerNames = names;
-            this._workers = names.map(name => Game.creeps[name]);
-        }
-    }
-}

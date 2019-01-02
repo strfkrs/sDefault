@@ -18,6 +18,9 @@ require("_Room.clean");
 require("_Room.creeps");
 require("_Room.flags");
 require("_Room.maxWorkers");
+require("_Room.addCreep");
+require("_Room.removeCreep");
+require("_Room.removeCreepByName");
 require("_Room.sources");
 require("_Room.structures");
 require("_Room.towers");
@@ -39,10 +42,11 @@ module.exports.loop = function() {
     
     cleanup();
 
+    l.init();
+
     l.og("Creeps",{name:""},"","");
     for (var c in Game.creeps) {
         let creep = Game.creeps[c];
-        l.og("",creep,"",creep+" "+creep.role);
         ROLES[creep.role].run(creep);
     }
 

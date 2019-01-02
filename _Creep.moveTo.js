@@ -25,7 +25,7 @@ if (!Creep.prototype._moveTo) {
 
                 // if moved into another room
                 // un/register creep in room.creeps
-                oldPos.room.creepsRemoveByName(this.name, this.role);
+                oldPos.room.creepsRemove(this);
                 newPos.room.creepsAdd(this);
             }
         }

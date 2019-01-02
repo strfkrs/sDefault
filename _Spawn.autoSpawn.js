@@ -81,7 +81,7 @@ Spawn.prototype.autoSpawn = function() {
                     const creep = Game.creeps[name];
                     msg2 += " -> spawned - setting home: "+creep.home.name;
                     actionMsg = "-->";
-                    creep.room.creepsAdd(creep);
+                    creep.room.addCreep(creep);
                     
                 } else {
                     msg2 += " -> status "+status;
