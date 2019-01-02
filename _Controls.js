@@ -83,7 +83,7 @@ module.exports = {
             return this._getDebugState();
         } else {
 
-            this._printLines("Setting debug: "+state);
+            this._printLines("Setting debug:\t"+state);
             return this._setDebugState(!(!state));
         }
     },
