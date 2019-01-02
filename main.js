@@ -30,14 +30,28 @@ require("_Spawn.autoSpawn");
 require("_Tower.autoRepair");
 require("_Tower.autoAttack");
 
-var hello = ("hello");
+const hello = require('hello');
+const wasmHello = new WebAssembly.Module(hello);
+
+const imports = {};
+
+// Some predefined environment for Emscripten. See here:
+// https://github.com/WebAssembly/tool-conventions/blob/master/DynamicLinking.md
+imports.env = {
+    memoryBase: 0,
+    tableBase: 0,
+    memory: new WebAssembly.Memory({ initial: 256 }),
+    table: new WebAssembly.Table({ initial: 0, element: 'anyfunc' })    
+};
+
+const wasmInstance = new WebAssembly.Instance(wasmHello, imports);
 
 var l = require("logger");
 var cleanup = require("cleanup");
 
 global.Controls = require("_Controls");
 
-hello();
+console.log(wasmHello.hello())
 
 module.exports.loop = function() {
     
