@@ -30,7 +30,7 @@ Room.prototype.creepsAdd = function(creep) {
 
 }
 
-Room.prototype.creepsRemoveByName = function(creepName) {
+Room.prototype.creepsRemoveByName = function(creepName, role) {
 
     let names = this.memory.creepNames.slice(0);
     if (names.includes(creepName)) {
@@ -42,6 +42,13 @@ Room.prototype.creepsRemoveByName = function(creepName) {
     
             this.memory.creepNames = names;
             this._creeps = names.map(name => Game.creeps[name]);
+        }
+
+
+
+
+        if (role == ROLE_WORKER) {
+            this.workersRemoveByName(creepName);
         }
     }
 }
