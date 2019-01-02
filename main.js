@@ -30,7 +30,7 @@ require("_Spawn.autoSpawn");
 require("_Tower.autoRepair");
 require("_Tower.autoAttack");
 
-const hello = require('hello');
+const hello = require('hello.wasm');
 const wasmHello = new WebAssembly.Module(hello);
 
 const imports = {};
