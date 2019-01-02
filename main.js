@@ -14,7 +14,6 @@ require("_Creep.runActions");
 require("_Flag.surrounds");
 require("_Objects.focussedBy");
 require("_Room.autoConstruct");
-require("_Room.clean");
 require("_Room.creeps");
 require("_Room.flags");
 require("_Room.maxWorkers");
