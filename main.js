@@ -21,6 +21,7 @@ require("_Room.maxWorkers");
 require("_Room.sources");
 require("_Room.structures");
 require("_Room.towers");
+require("_Room.workers");
 require("_Source.maxWorkers");
 require("_Source.memory");
 require("_Spawn.autoSpawn");

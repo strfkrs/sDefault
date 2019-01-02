@@ -16,22 +16,32 @@ Object.defineProperty(Room.prototype, 'creeps', {
 Room.prototype.creepsAdd = function(creep) {
 
     let creeps = this.creeps;
-    creeps.push(creep);
+    if (!creeps.includes(creep)) {
+        creeps.push(creep);
+    
+        this._creeps = creeps;
+        this.memory.creepNames.push(creep.name);
 
-    this._creeps = creeps;
-    this.memory.creepNames.push(creep.name);
+
+        if (creep.role == ROLE_WORKER) {
+            this.workersAdd(creep);
+        }
+    }
+
 }
 
 Room.prototype.creepsRemoveByName = function(creepName) {
 
-    var creepNames = this.memory.creepNames.slice(0);
-    var index = creepNames.indexOf(creepName);
+    let names = this.memory.creepNames.slice(0);
+    if (names.includes(creepName)) {
 
-    if (index > -1) {
-
-        creepNames.splice(index, 1);
-
-        this.memory.creepNames = creepNames;
-        this._creeps = creepNames.map(name => Game.creeps[name]);
+        const index = names.indexOf(creepName);
+        if (index > -1) {
+    
+            names.splice(index, 1);
+    
+            this.memory.creepNames = names;
+            this._creeps = names.map(name => Game.creeps[name]);
+        }
     }
 }

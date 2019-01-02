@@ -76,7 +76,7 @@ module.exports = {
     _setDebugState(state) {
         Memory.debug = state;
         this._debugState = state;
-        returnstate;
+        return state;
     },
     debug: function(state) {
         if (state == undefined) {
