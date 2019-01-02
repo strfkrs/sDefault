@@ -9,11 +9,6 @@ Room.prototype.addCreep = function(creep) {
     
         this._creeps = creeps;
         this.memory.creepNames.push(creep.name);
-
-
-        if (creep.role == ROLE_WORKER) {
-            this.workersAdd(creep);
-        }
     }
 
     creeps = this.workers;
