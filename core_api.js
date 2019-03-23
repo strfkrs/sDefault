@@ -1,6 +1,6 @@
 const log = require("logger");
 module.exports = {
-    init : function() {
+    init : function(n) {
         if ( this._core == undefined ) {
             log("init core");
             
@@ -24,7 +24,12 @@ module.exports = {
             const arrayBuffer = memory.buffer;
             const buffer = new Uint8Array(arrayBuffer);
             this._core = wasmInstance.exports;
+
+            this._core._init(n);
         }
+    },
+    test : function() {
+        return this._core._test();
     }
-    
+
 }
