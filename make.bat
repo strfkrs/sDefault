@@ -1,0 +1,1 @@
+emcc -s WASM=1 -s EXPORTED_FUNCTIONS=['_get','_set'] -s SIDE_MODULE=1 -O3 core.c -o core.wasm
