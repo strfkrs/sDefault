@@ -4,8 +4,8 @@ const core = require("core_api");
 const log = require("logger");
 
 log(undefined, "reset");
-core.init();
+core.init(12);
 
 module.exports.loop = function () {
-    core.init();
+    console.log(core.test());
 }

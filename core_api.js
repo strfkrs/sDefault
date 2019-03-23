@@ -1,10 +1,11 @@
+const log = require("logger");
 module.exports = {
-    _log : require("logger"),
     init : function() {
         if ( this._core == undefined ) {
-            _log("init core");
+            log("init core");
+            
             const bytecode = require('core');
-
+            
             const wasmModule = new WebAssembly.Module(bytecode);
 
             const imports = {};
@@ -25,5 +26,5 @@ module.exports = {
             this._core = wasmInstance.exports;
         }
     }
-
+    
 }
