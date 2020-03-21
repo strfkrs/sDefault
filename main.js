@@ -1,11 +1,26 @@
-// This will return an ArrayBuffer with `addTwo.wasm` binary contents
+const Core = require("CoreApi");
+const Job = require("Job");
 
-const core = require("core_api");
-const log = require("logger");
+require("_Creep");
+require("_Room");
 
-log(undefined, "reset");
-core.init(12);
+const core = new Core();
 
 module.exports.loop = function () {
-    console.log(core.test());
+   core.log("StartLoop");
+   for ( const r in Game.rooms )
+   {
+      let room = Game.rooms[r];
+      core.log( "Room: " + room.name );
+      for ( const c in room.creeps )
+      {
+         let creep = room.creeps[c];
+         core.log( "Creep: " + creep.name );
+      }
+      for ( const s in room.spawns )
+      {
+         let spawn = room.spawns[s];
+         core.log( "Spawn: " + spawn.name );
+      }
+   }
 }
