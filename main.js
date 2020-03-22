@@ -14,10 +14,6 @@ module.exports.loop = function () {
    let creepCounter = 0;
    let spawnCounter = 0;
    let roomCounter = 0;
-   for ( let character = "", c = 0; (character = String.fromCharCode( core.heap[start + c] )) != "\0"; c++ )
-   {
-      core.log( character );
-   }
 
    for ( const r in Game.rooms )
    {
