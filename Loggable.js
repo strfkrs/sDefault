@@ -13,7 +13,6 @@ class Loggable
       if ( Loggable.enabled )
       {
          console.log(`${msg} ${ (msg.length < Loggable.messageMinLength) ? " ".repeat( Loggable.messageMinLength - msg.length ) : "" }`+
-
                      `[ ${ Game.cpu.getUsed().toFixed(2) } ]`+
                      `[ ${this._moduleName} ]`+
                      (( status != undefined ) ? `[ ${ status ? "ok" : "error"} ]` : '')

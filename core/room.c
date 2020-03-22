@@ -9,32 +9,24 @@ bool_t cleanupRooms()
    return cleanupPtList( (void **) rooms );
 }
 
-bool_t initRoom( Room * room  )
+Room * getRoomByIndex( index_t idx )
 {
-   if ( ! addPtToList( room, (void *)rooms ) )
+   return ( idx < MAX_ROOMS ) ? &core_rooms[idx] : NULL;
+}
+
+bool_t initRoom( index_t idx )
+{
+   rooms[idx] = &core_rooms[idx];
+   Room * room = rooms[idx];
+
+   if ( ! cleanupPtList( (void **) room->spawns ) )
+   {
+      return false;
+   }
+   if ( ! cleanupPtList( (void **) room->creeps ) )
    {
       return false;
    }
 
-   for( index_t s = 0; s < LENGTHOF_SPAWNS( room->spawns ); s++ )
-   {
-      room->spawns[s] = NULL;
-   }
-
-   for( index_t c = 0; c < LENGTHOF_CREEPS( room->creeps ); c++ )
-   {
-      room->creeps[c] = NULL;
-   }
-
    return true;
-}
-
-bool_t addSpawnToRoom( Room * room, Spawn * spawn )
-{
-   if ( addPtToList( spawn, (void *)rooms ) )
-   {
-      spawn->room = room;
-      return true;
-   }
-   return false;
 }

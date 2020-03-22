@@ -18,9 +18,9 @@ typedef struct Order
 {
    bool_t consumed;
    ORDER_TYPE type;
-   index_t bytesLength;
+   void * sourceEntitiy;
+   void * targetEntity;
    byte_t bytes[ORDER_MAX_BYTES];
-
 } Order;
 
 static Order core_orders[MAX_ORDERS];

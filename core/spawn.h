@@ -16,5 +16,8 @@ typedef struct Spawn {
 static Spawn core_spawns[MAX_SPAWNS];
 static Spawn * spawns[MAX_SPAWNS];
 
-extern bool_t initSpawn( Spawn * spawn, Room * room, bool_t working );
+extern bool_t initSpawn( index_t idx, index_t roomIdx, bool_t working );
 extern bool_t cleanupSpawns();
+extern index_t getSpawnIndex( Spawn * spawn );
+extern Spawn * getSpawnByIndex( index_t index );
+extern index_t getIdleSpawnCountInRoom( Room * room );

@@ -18,8 +18,8 @@ typedef struct Room {
 static Room core_rooms[MAX_ROOMS];
 static Room * rooms[MAX_ROOMS];
 
+extern bool_t initRoom( index_t idx );
+extern bool_t cleanupRooms();
+extern Room * getRoomByIndex( index_t idx );
 extern bool_t addSpawnToRoom( Room * room, Spawn * spawn );
 extern bool_t addCreepToRoom( Room * room, Creep * creep );
-
-extern bool_t initRoom( Room * room );
-extern bool_t cleanupRooms();

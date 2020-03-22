@@ -36,7 +36,8 @@ typedef struct Creep {
 static Creep core_creeps[MAX_CREEPS];
 static Creep * creeps[MAX_CREEPS];
 
-extern bool_t initCreep( Creep * creep, Room * room, ROLE role, JOB job );
-extern bool_t initCreepAction( Creep * creep, ACTION action );
+extern bool_t initCreep( index_t idx, index_t roomIdx, ROLE role, JOB job );
+extern bool_t initCreepAction( index_t creepIdx, ACTION action );
 extern bool_t cleanupCreeps();
-extern index_t amountOfCreepsWithRole( ROLE role );
+extern Creep * getCreepByIndex( index_t idx );
+extern index_t getAmountOfCreepsWithRole( ROLE role );

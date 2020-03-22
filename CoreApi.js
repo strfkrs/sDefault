@@ -1,4 +1,5 @@
 const Loggable = require("Loggable");
+const Order = require("Order");
 
 class CoreApi extends Loggable
 {
@@ -40,7 +41,7 @@ class CoreApi extends Loggable
          case 0: this.log( msg, 1 ); break;
          default: this.log( msg, 0 ); break;
       }
-      return answer == 0;
+      return answer;
    }
    init()
    {
@@ -52,7 +53,7 @@ class CoreApi extends Loggable
    }
    initRoom( idx )
    {
-      return this._logParseStatusCode( this._core._init_room( idx ), `init Room idx: ${ idx } ` );
+      return this._logParseStatusCode( this._core._init_room( idx ), `initRoom idx: ${ idx } ` );
    }
    initCreep( idx, roomIdx, role, job )
    {
