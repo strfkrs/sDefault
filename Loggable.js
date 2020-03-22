@@ -1,3 +1,5 @@
+const _MAX_LENGTH_MESSAGE = 50;
+
 class Loggable
 {
    constructor( moduleName )
@@ -5,15 +7,19 @@ class Loggable
       this._moduleName = moduleName;
       Loggable.enabled = ( Loggable.enabled ) ? Loggable.enabled : 1;
    }
-   log( msg )
+   static get MAX_LENGTH_MESSAGE() { return _MAX_LENGTH_MESSAGE; }
+   log( msg, status = undefined )
    {
       if ( Loggable.enabled )
       {
          console.log(`${msg} ${ (msg.length < Loggable.messageMinLength) ? " ".repeat( Loggable.messageMinLength - msg.length ) : "" }`+
+
                      `[ ${ Game.cpu.getUsed().toFixed(2) } ]`+
-                     `[ ${this._moduleName} ]`
+                     `[ ${this._moduleName} ]`+
+                     (( status != undefined ) ? `[ ${ status ? "ok" : "error"} ]` : '')
                      );
       }
+      return status;
    }
    static log( msg )
    {
@@ -29,7 +35,7 @@ class Loggable
    }
    static get messageMinLength()
    {
-      Loggable._messageMinLength = ( Loggable._messageMinLength ) ? Loggable._messageMinLength : 50;
+      Loggable._messageMinLength = ( Loggable._messageMinLength ) ? Loggable._messageMinLength : Loggable.MAX_LENGTH_MESSAGE;
       return Loggable._messageMinLength;
    }
    static set messageMinLength( value )

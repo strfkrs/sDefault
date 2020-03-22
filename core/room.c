@@ -1,16 +1,40 @@
 #include "room.h"
+#include "creep.h"
+#include "spawn.h"
 #include "types.h"
 #include "tools.h"
 
-bool_t initRoom( room * room  )
+bool_t cleanupRooms()
 {
-   for( index_t s = 0; s < LENGTHOF( initializedRooms[r]->spawns ); s++ )
+   return cleanupPtList( (void **) rooms );
+}
+
+bool_t initRoom( Room * room  )
+{
+   if ( ! addPtToList( room, (void *)rooms ) )
    {
-      initializedRooms[r]->spawns[s] = NULL;
+      return false;
    }
-   for( index_t c = 0; c < LENGTHOF( initializedRooms[r]->creeps ); c++ )
+
+   for( index_t s = 0; s < LENGTHOF_SPAWNS( room->spawns ); s++ )
    {
-      initializedRooms[r]->creeps[c] = NULL;
+      room->spawns[s] = NULL;
    }
+
+   for( index_t c = 0; c < LENGTHOF_CREEPS( room->creeps ); c++ )
+   {
+      room->creeps[c] = NULL;
+   }
+
    return true;
+}
+
+bool_t addSpawnToRoom( Room * room, Spawn * spawn )
+{
+   if ( addPtToList( spawn, (void *)rooms ) )
+   {
+      spawn->room = room;
+      return true;
+   }
+   return false;
 }

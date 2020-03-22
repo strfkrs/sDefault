@@ -2,14 +2,24 @@
 #include "types.h"
 #include "creep.h"
 #include "spawn.h"
+#define MAX_ROOMS 25
+#define MAX_SPAWNS_PER_ROOM 4
+#define MAX_CREEPS_PER_ROOM 100
 
-typedef struct spawn spawn;
-typedef struct creep creep;
-typedef struct room room;
+typedef struct Creep Creep;
+typedef struct Room Room;
+typedef struct Spawn Spawn;
 
-typedef struct room {
-   spawn * spawns[4];
-   creep * creeps[100];
-} room;
+typedef struct Room {
+   Spawn * spawns[MAX_SPAWNS_PER_ROOM];
+   Creep * creeps[MAX_CREEPS_PER_ROOM];
+} Room;
 
-extern bool_t initRoom( room * room );
+static Room core_rooms[MAX_ROOMS];
+static Room * rooms[MAX_ROOMS];
+
+extern bool_t addSpawnToRoom( Room * room, Spawn * spawn );
+extern bool_t addCreepToRoom( Room * room, Creep * creep );
+
+extern bool_t initRoom( Room * room );
+extern bool_t cleanupRooms();

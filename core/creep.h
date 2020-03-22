@@ -1,6 +1,7 @@
 #pragma once
 #include "types.h"
 #include "room.h"
+#define MAX_CREEPS 200
 
 typedef enum {
    JOB_IDLE,
@@ -20,17 +21,22 @@ typedef enum {
    ROLE_WORKER
 } ROLE;
 
-typedef struct spawn spawn;
-typedef struct creep creep;
-typedef struct room room;
+typedef struct Creep Creep;
+typedef struct Room Room;
+typedef struct Spawn Spawn;
 
-typedef struct creep {
+typedef struct Creep {
    ROLE role;
    JOB job;
    ACTION actions[10];
    index_t numActions;
-   room * room;
-} creep;
+   Room * room;
+} Creep;
 
-extern bool_t initCreep( creep * creep, room * room, ROLE role, JOB job );
-extern bool_t initCreepAction( creep * creep, ACTION action );
+static Creep core_creeps[MAX_CREEPS];
+static Creep * creeps[MAX_CREEPS];
+
+extern bool_t initCreep( Creep * creep, Room * room, ROLE role, JOB job );
+extern bool_t initCreepAction( Creep * creep, ACTION action );
+extern bool_t cleanupCreeps();
+extern index_t amountOfCreepsWithRole( ROLE role );
