@@ -1,26 +1,30 @@
-#include "core.h"
-
 #include <emscripten.h>
 #include <emscripten/val.h>
+#include <emscripten/bind.h>
+#include <iostream>
+#include "core.h"
 
-class test
+
+namespace core
 {
-   public:
-   test()
+   namespace api
    {
+      enum class Role : unsigned char {
+         ROLE_WORKER
+      };
 
+      int tick()
+      {
+         std::cout << "huhu" << std::endl;
+         return 1;
+      }
    }
-};
-
-extern "C" {
-int main()
-{
-   auto a = new test();
-   return 2;
 }
 
-int init()
-{
-   return 1;
+EMSCRIPTEN_BINDINGS(loop) {
+   emscripten::function( "tick", &core::api::tick );
 }
+
+EMSCRIPTEN_BINDINGS(constant) {
+   emscripten::constant( "ROLE_WORKER", (const unsigned char) core::api::Role::ROLE_WORKER );
 }
