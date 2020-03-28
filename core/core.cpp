@@ -1,30 +1,10 @@
-#include <emscripten.h>
-#include <emscripten/val.h>
-#include <emscripten/bind.h>
+#include "Core.h"
+#include "Game.h"
 #include <iostream>
-#include "core.h"
-
-
 namespace core
 {
-   namespace api
+   void Core::init( game::Game& game )
    {
-      enum class Role : unsigned char {
-         ROLE_WORKER
-      };
-
-      int tick()
-      {
-         std::cout << "huhu" << std::endl;
-         return 1;
-      }
+      std::cout << *this << " init" << std::endl;
    }
-}
-
-EMSCRIPTEN_BINDINGS(loop) {
-   emscripten::function( "tick", &core::api::tick );
-}
-
-EMSCRIPTEN_BINDINGS(constant) {
-   emscripten::constant( "ROLE_WORKER", (const unsigned char) core::api::Role::ROLE_WORKER );
 }

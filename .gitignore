@@ -1,4 +1,5 @@
 .vscode/
-*.wasm
+core/*.wasm
+.wasm
 *.bat
 *-mod.js

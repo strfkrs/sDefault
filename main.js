@@ -19,9 +19,7 @@ const mod = Module(opts);
 
 module.exports.loop = function () {
    if ( !coreIsInit ) { return; }
-   console.log( mod.tick() );
-   console.log( mod.ROLE_WORKER );
-   console.log( (mod.role) ? mod.role.ROLE_WORKER : "" );
+   console.log( mod.init() );
 
    //mod.ccall('main');
 }
