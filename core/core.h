@@ -9,7 +9,7 @@ namespace core
    {
       // singleton
       public:
-         static Core& instance()
+         static Core& getInstance()
          {
             static Core instance;
             return instance;
@@ -22,7 +22,7 @@ namespace core
       // -----------
       public:
          std::ostream& toString( std::ostream & os ) override { return os << "[ core ]"; };
-         void init( game::Game& game );
+         static void init();
 
    };
 }

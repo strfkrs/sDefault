@@ -1,6 +1,11 @@
 #pragma once
 #include <iostream>
+#include <map>
 #include "Loggable.h"
+#include "Creep.h"
+#include "Room.h"
+#include "Structure.h"
+
 namespace core
 {
    namespace game
@@ -8,18 +13,17 @@ namespace core
 
       class Game : public log::Loggable
       {
+         private:
+            std::map<std::string, Creep> rooms;
+         private:
+            Game(){};
          public:
-            int _constructed = 0;
-            int _timestamp = 0;
-         public:
-            static Game& instance()
+            static Game& getInstance()
             {
                static Game instance;
                return instance;
             }
          private:
-
-            Game(){};
             Game(Game const&) = delete;
             void operator=(Game const&) = delete;
 

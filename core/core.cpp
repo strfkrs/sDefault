@@ -1,10 +1,8 @@
 #include "Core.h"
 #include "Game.h"
-#include <iostream>
 namespace core
 {
-   void Core::init( game::Game& game )
+   void Core::init()
    {
-      std::cout << *this << " init" << std::endl;
    }
 }

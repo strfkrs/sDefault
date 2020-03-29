@@ -5,8 +5,8 @@ let coreIsInit = 0;
 
 const opts = {
   ENVIRONMENT: 'SHELL', // This works, NODE does not
-  print: function(text){ console.log(`[STDOUT] ${text}`); },
-  printErr: function(text){ console.log(`[STDERR] ${text}`); },
+  print: console.log,//function(txt){ console.log(`${Game.cpu.getUsed()} ${txt}`); },
+  printErr: function(text){ console.log(` [STDERR] ${text}`); },
   onAbort: function(){ console.log(`[ABORT] WASM Aborted!`); },
   onRuntimeInitialized: function(){ coreIsInit = 1; },
   noInitialRun: true,
@@ -19,7 +19,7 @@ const mod = Module(opts);
 
 module.exports.loop = function () {
    if ( !coreIsInit ) { return; }
-   console.log( mod.init() );
+   mod.loop();
 
    //mod.ccall('main');
 }

@@ -15,30 +15,18 @@ namespace core
 
       class Api : log::Loggable
       {
-         public:
-            static Api& instance()
-            {
-               static Api instance;
-               return instance;
-            }
          private:
-            Api(){};
-            Api(Api const&) = delete;
-            void operator=(Api const&) = delete;
+            Api() = delete;
          public:
-            static void init();
-            static void parseInitGame( game::Game& game );
-            static void dumpStatistics( val_t& cpu );
+            static void loop();
+         private:
+            static void parseInitGame( game::Game& game, const valMap_t& creeps, const valMap_t& spawns, const valMap_t& rooms );
+            static void dumpStatistics( const val_t& cpu, const std::string& msg );
          public:
             std::ostream& toString( std::ostream & os ) override { return os << "[ Api ]"; };
       };
-
       EMSCRIPTEN_BINDINGS(loop) {
-         emscripten::function( "init", &Api::init );
-      }
-
-      EMSCRIPTEN_BINDINGS(constant) {
-         emscripten::constant( "ROLE_WORKER", (const unsigned char) 1 );
+         emscripten::function( "loop", &Api::loop );
       }
    }
 }
