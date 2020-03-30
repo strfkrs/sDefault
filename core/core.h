@@ -22,7 +22,7 @@ namespace core
       // -----------
       public:
          std::ostream& toString( std::ostream & os ) override { return os << "[ core ]"; };
-         static void init();
+         static void init( game::Game& game );
 
    };
 }

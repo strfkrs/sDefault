@@ -1,5 +1,7 @@
 #pragma once
 #include "Loggable.h"
+#include <string>
+#include <map>
 
 namespace core
 {
@@ -13,5 +15,7 @@ namespace core
             Creep( const std::string& _name ) : name(_name) {};
             std::ostream& toString( std::ostream & os ) override { return os << "[ Creep ][ " << this->name << "]"; };
       };
+
+      typedef std::map<std::string, Creep> creepList_t;
    }
 }

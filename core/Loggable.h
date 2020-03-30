@@ -2,6 +2,7 @@
 #include <string>
 #include <functional>
 #include <iostream>
+#include "Type.h"
 namespace core
 {
    namespace log
@@ -15,10 +16,25 @@ namespace core
       class Loggable
       {
          public:
-            virtual std::ostream& toString(std::ostream& os) = 0;
-            friend std::ostream& operator<<(std::ostream& os, Loggable& element);
+            virtual os_t& toString(os_t& os) = 0;
+            friend os_t& operator<<(os_t& os, Loggable& element);
+            friend os_t& operator<<(os_t& os, Loggable* element);
          public:
             static LogLevel logLevel;
+            static std::string formatClassName( const char * name )
+            {
+               std::string n(name);
+               const char c = ' ';
+               const unsigned char width = 12;
+               const unsigned char len = n.length();
+               const unsigned char lpad = ( width / 2 ) - (len / 2);
+               const unsigned char rpad = ( width / 2 ) - (len / 2) + ( ( len % 2 == 0 ) ? 1 : 0 );
+
+               n.insert( n.begin(), lpad, c );
+               n.append( rpad, c);
+
+               return "[ " + n + " ]";
+            }
       };
    }
 }

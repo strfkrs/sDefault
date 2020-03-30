@@ -13,8 +13,8 @@ namespace core
 
       class Game : public log::Loggable
       {
-         private:
-            std::map<std::string, Creep> rooms;
+         public:
+            roomList_t rooms;
          private:
             Game(){};
          public:
