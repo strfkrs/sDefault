@@ -21,11 +21,10 @@ namespace core
             friend os_t& operator<<(os_t& os, Loggable* element);
          public:
             static LogLevel logLevel;
-            static std::string formatClassName( const char * name )
+            static std::string padding( const char * name, const unsigned char width )
             {
                std::string n(name);
                const char c = ' ';
-               const unsigned char width = 12;
                const unsigned char len = n.length();
                const unsigned char lpad = ( width / 2 ) - (len / 2);
                const unsigned char rpad = ( width / 2 ) - (len / 2) + ( ( len % 2 == 0 ) ? 1 : 0 );

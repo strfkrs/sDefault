@@ -1,5 +1,11 @@
 
 const Module = require('core-mod');
+require("CreepRole");
+require("CreepTargetName");
+require("ResourceCoreTypeID");
+require("StructureCoreTypeID");
+require("StoreCoreGetCapacity");
+require("SpawnCreep");
 
 let coreIsInit = 0;
 
@@ -16,10 +22,7 @@ const opts = {
 
 const mod = Module(opts);
 
-
 module.exports.loop = function () {
    if ( !coreIsInit ) { return; }
    mod.loop();
-
-   //mod.ccall('main');
 }

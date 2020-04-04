@@ -3,26 +3,19 @@
 #include <iostream>
 #include "Loggable.h"
 #include "Game.h"
+#include "Api.h"
 namespace core
 {
    class Core : public log::Loggable
    {
-      // singleton
       public:
-         static Core& getInstance()
-         {
-            static Core instance;
-            return instance;
-         }
+         Core(){ std::cout << this << " created" << std::endl; }
       private:
-         Core(){}
          Core(Core const&) = delete;
          void operator=(Core const&) = delete;
-
-      // -----------
       public:
-         std::ostream& toString( std::ostream & os ) override { return os << "[ core ]"; };
-         static void init( game::Game& game );
-
+         std::ostream& toString( std::ostream & os ) override { return os << Loggable::padding( "Core", 12 ); };
+         static void loop();
+         status_t run( game::Game& game, api::Api& api );
    };
 }

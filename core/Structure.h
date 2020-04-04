@@ -4,11 +4,14 @@
 #include "Loggable.h"
 #include "Storable.h"
 #include "Type.h"
+#include "Tools.h"
+#include "ApiType.h"
 
 namespace core
 {
    namespace game
    {
+
       enum StructureType : unsigned char
       {
          STRUCTURE_SPAWN,
@@ -36,29 +39,40 @@ namespace core
       class Structure : public Storable, public log::Loggable
       {
          public:
-            const std::string name;
+            const api::val_t val;
+            const name_t name;
+            const Room* room;
             const StructureType type;
-            bool isWorking = false;
+            const bool my;
+            bool isWorking;
          public:
-            Structure( const name_t& _name,
+            Structure( const api::val_t& _val,
+                       const name_t& _name,
+                       const Room* _room,
                        const StructureType& _type,
                        const bool& _isWorking,
+                       const bool& _my,
                        const Storable& storage )
                      : Storable( storage ),
+                       val(_val),
+                       room(_room),
                        name(_name),
                        type(_type),
+                       my(_my),
                        isWorking(_isWorking) { std::cout << (Structure*) this << " created " << std::endl; };
          public:
             std::ostream& toString( std::ostream & os ) override
             {
-               os        << Loggable::formatClassName( "Structure" )
+               os        << Loggable::padding( "Structure", 12 )
                          << "[ name: " << this->name
                          << " ][ type: " << this->type
-                         << " ][ isWorking: " << ((this->isWorking) ? 1 : 0) << "]";
+                         << " ][ isWorking: " << ((this->isWorking) ? 1 : 0)
+                         << " ][ my: " << ((this->my) ? 1 : 0) << " ]";
                return ((Storable*) this)->toString( os );
 
             };
       };
       typedef std::map<std::string, Structure> structureList_t;
+      typedef std::map<std::string&, Structure&> structureRefList_t;
    }
 }

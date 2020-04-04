@@ -6,6 +6,7 @@
 #include "Creep.h"
 #include "Structure.h"
 #include "Type.h"
+#include "ApiType.h"
 
 namespace core
 {
@@ -14,21 +15,33 @@ namespace core
       class Room : public log::Loggable
       {
          public:
+            const api::val_t val;
             const name_t name;
             creepList_t creeps;
             structureList_t structures;
+            energy_t energy;
+            energy_t maxEnergy;
          public:
-            Room( const name_t _name )
-                : name(_name) { std::cout << this << " created " << std::endl; };
+            Room( const api::val_t _val,
+                  const name_t _name,
+                  const energy_t _energy,
+                  const energy_t _maxEnergy )
+                : val(_val),
+                  name(_name),
+                  energy(_energy),
+                  maxEnergy(_maxEnergy) { std::cout << this << " created " << std::endl; };
          public:
             std::ostream& toString( std::ostream & os ) override
             {
-               return os << Loggable::formatClassName( "Room" )
+               return os << Loggable::padding( "Room", 12 )
                          << "[ name: " << this->name << " ]"
+                         << "[ energy: " << this->energy << " ]"
+                         << "[ maxEnergy: " << this->maxEnergy << " ]"
                          << "[ structures: " << this->structures.size() << " ]"
                          << "[ creeps: " << this->creeps.size() << " ]";
             };
       };
       typedef std::map<std::string, Room> roomList_t;
+      typedef std::map<std::string&, Room&> roomRefList_t;
    }
 }

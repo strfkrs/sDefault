@@ -1,8 +1,9 @@
 #include "Creep.h"
-namespace core
+#include <iostream>
+#include <random>
+#include <ctime>
+#include <cmath>
+#include "Tools.h"
+namespace core::game
 {
-   namespace game
-   {
-
-   }
 }

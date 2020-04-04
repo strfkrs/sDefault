@@ -28,17 +28,23 @@ namespace core
                   return instance;
                }
             private:
-               ApiParser(){};
+               ApiParser(){ std::cout << this << " created" << std::endl; };
             private:
                ApiParser(ApiParser const&) = delete;
                void operator=(ApiParser const&) = delete;
             public:
                std::ostream& toString( std::ostream & os ) override
                {
-                  return os << Loggable::formatClassName( "ApiParser" );
+                  return os << Loggable::padding( "ApiParser", 12 );
                };
-            public:
-               void parseInitGame( game::Game& game, const val_t& objVal, const val_t& gameVal );
+               static void parseInitRooms( core::game::roomList_t& roomList,
+                                           const core::api::valMap_t& rooms );
+               static void parseInitCreeps( core::game::Room* room,
+                                            core::game::creepList_t& list,
+                                            const core::api::valMap_t& creeps );
+               static void parseInitStructures( core::game::Room* room,
+                                                core::game::structureList_t& list,
+                                                const core::api::valMap_t& structures );
          };
 
       }

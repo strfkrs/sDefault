@@ -1,55 +1,53 @@
 
 #include <iostream>
 #include "Storable.h"
-namespace core
+namespace core::game
 {
-   namespace game
+   std::ostream& Storable::toString( std::ostream & os )
    {
-      std::ostream& Storable::toString( std::ostream & os )
+      const auto& content = this->getContent();
+      for( auto c = content.begin(); c != content.end(); c++ )
       {
-         const auto& content = this->getContent();
-         for( auto c = content.begin(); c != content.end(); c++ )
-         {
-            os << "[ " << resourceMap.find(c->first)->second << ": " << c->second << " ]";
-         }
-         return os;
+         os << "[ " << resourceMap.find(c->first)->second << ": " << c->second << " ]";
       }
-      const ResourceType& getResourceCoreType( const std::string& resourceType )
+      return os;
+   }
+   const ResourceType& getResourceCoreType( const std::string& resourceType )
+   {
+      for( auto t = resourceMap.begin(); t != resourceMap.end(); t++ )
       {
-         for( auto t = resourceMap.begin(); t != resourceMap.end(); t++ )
+         if( t->second == resourceType )
          {
-            if( t->second == resourceType )
-            {
-               return t->first;
-            }
+            return t->first;
          }
-         std::cout << " ERROR getResourceCoreType no resource found, [" << resourceType << "]" << std::endl;
       }
-      const Storable& getNoneStorageRef()
+      std::cout << " ERROR getResourceCoreType no resource found, [" << resourceType << "]" << std::endl;
+      throw " please look correct ";
+   }
+   const Storable& getEmptyStorageRef()
+   {
+      static const Storable ref( false, 0 );
+      return ref;
+   }
+   const std::string& getResourceJsType( const ResourceType& resourceType )
+   {
+      return resourceMap.find(resourceType)->second;
+   }
+   const bool Storable::changeResource( const ResourceType type, const resourceQuantity_t diff )
+   {
+      auto begin = this->content.begin();
+      if(    begin != this->content.end()
+            && ( this->singleResourceType == true && type != begin->first ) )
       {
-         static const Storable ref( false, 0 );
-         return ref;
+         return false;
       }
-      const std::string& getResourceJsType( const ResourceType& resourceType )
+      auto match = this->content.find( type );
+      if ( match != this->content.end() )
       {
-         return resourceMap.find(resourceType)->second;
-      }
-      const bool Storable::changeResource( const ResourceType type, const resourceQuantity_t diff )
-      {
-         auto begin = this->content.begin();
-         if(    begin != this->content.end()
-             && ( this->singleResourceType == true && type != begin->first ) )
-         {
-            return false;
-         }
-         auto match = this->content.find( type );
-         if ( match != this->content.end() )
-         {
-            match->second += diff;
-            return true;
-         }
-         this->content.insert({ type, diff });
+         match->second += diff;
          return true;
       }
+      this->content.insert({ type, diff });
+      return true;
    }
 }

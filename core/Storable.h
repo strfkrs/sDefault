@@ -16,7 +16,7 @@ namespace core
          private:
             storage_t content;
             resourceQuantity_t maxQuantity;
-            const bool singleResourceType;
+            bool singleResourceType;
          public:
             Storable( const bool single,
                       const resourceQuantity_t _maxQuantity ) : singleResourceType(single),
@@ -26,6 +26,12 @@ namespace core
                       const storage_t& _content             ) : singleResourceType(single),
                                                                 maxQuantity(_maxQuantity),
                                                                 content(_content) {};
+         public:
+            void operator=( const Storable & e ) {
+               this->content = e.content;
+               this->maxQuantity = e.maxQuantity;
+               this->singleResourceType = e.singleResourceType;
+            }
          /*protected:
             Storable( const Storable& e ) = default;*/
          public:
@@ -38,7 +44,7 @@ namespace core
 
       extern const ResourceType& getResourceCoreType( const std::string& resourceType );
       extern const std::string& getResourceJsType( const ResourceType& resourceType );
-      extern const Storable& getNoneStorageRef();
+      extern const Storable& getEmptyStorageRef();
 
       enum ResourceType : unsigned char
       {
