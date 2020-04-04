@@ -28,10 +28,10 @@ namespace core::game
 
          if( game.findCreepByName( generated ) == NULL )
          {
-            return std::move( name );
+            return std::move( generated );
          }
       }
-      return "asd";
+      return "ERROR";
    }
    creepBody_t Game::createCreepBody( const energy_t availableEnergy, const creepBody_t strategy )
    {

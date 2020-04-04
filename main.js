@@ -4,7 +4,6 @@ require("CreepRole");
 require("CreepTargetName");
 require("ResourceCoreTypeID");
 require("StructureCoreTypeID");
-require("StoreCoreGetCapacity");
 require("SpawnCreep");
 
 let coreIsInit = 0;
