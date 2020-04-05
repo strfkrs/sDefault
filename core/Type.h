@@ -14,6 +14,7 @@ namespace core
 
    namespace game
    {
+      typedef unsigned short processStatus_t;
       typedef class Room Room;
       typedef class Creep Creep;
       typedef class Structure Structure;

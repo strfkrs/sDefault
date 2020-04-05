@@ -1,9 +1,9 @@
 #pragma once
+#include "../Loggable.h"
+#include "../game/Game.h"
+#include "../game/Creep.h"
+#include "../Type.h"
 #include "ApiType.h"
-#include "Loggable.h"
-#include "Game.h"
-#include "Creep.h"
-#include "Type.h"
 #include "ApiParser.h"
 
 namespace core
@@ -25,9 +25,11 @@ namespace core
             bool initGame( game::Game& game );
             status_t spawnCreep( const game::Structure& spawn,
                                  const game::name_t& name,
-                                 const game::Role role,
+                                 const game::RoleType role,
                                  const game::creepBody_t& body );
             cpuTime_t getCpuTime();
+            status_t creepSay( game::Creep& creep, const std::string& msg );
+            //bool sendCreepToFlag( Creep& creep, Flag& flag );
          public:
             std::ostream& toString( std::ostream & os ) override { return os << Loggable::padding( "Api", 12 ); };
       };

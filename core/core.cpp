@@ -1,62 +1,37 @@
 #include "Core.h"
-#include "Api.h"
-#include "Game.h"
-#include "Room.h"
-#include "Structure.h"
-#include "Creep.h"
 #include "Type.h"
 #include "Tools.h"
 #include "Loggable.h"
-
-namespace
-{
-   void printLog( core::api::Api& api, core::Core& core, core::game::Game& game, const char * msg )
-   {
-      using namespace core::log;
-      std::cout << core << "[ " << std::fixed << std::setprecision(2) << api.getCpuTime() << " ]" << Loggable::padding( msg, 10 ) << std::endl;
-   }
-   unsigned short getAmountOfCreepsWithRole( const core::game::creepList_t& creepList, const core::game::Role& role )
-   {
-      unsigned short amount = 0;
-      for( const auto c : creepList )
-      {
-         if( c.second.role == role )
-         {
-            amount++;
-         }
-      }
-      return amount;
-   }
-   core::status_t spawnCreep( core::game::Game& game, core::game::Room& room, core::api::Api& api )
-   {
-      using namespace core::game;
-      creepBody_t body;
-
-      auto spawn = core::find_if( room.structures, [&]( const auto& s ){ return    s.second.type == STRUCTURE_SPAWN
-                                                                                && s.second.isWorking == false
-                                                                                && s.second.my; } );
-      return api.spawnCreep( spawn->second,
-                             Game::createCreepName( game ),
-                             ROLE_WORKER,
-                             Game::createCreepBody( room.energy, creepBody_t{ BODYPART_MOVE, BODYPART_WORK, BODYPART_CARRY } )
-                           );
-   }
-}
+#include "api/Api.h"
+#include "game/Game.h"
+#include "game/Room.h"
+#include "game/Structure.h"
+#include "game/Creep.h"
+#include "game/ActionFactory.h"
 
 namespace core
 {
-   status_t Core::run( game::Game& game, api::Api& api )
+   Core::Core()
+   {
+      this->api.initGame( this->game );
+      std::cout << this << " created" << std::endl;
+   }
+
+   status_t Core::run()
    {
       using namespace game;
       using namespace api;
 
-      for( auto& r : game.rooms )
+      for( auto& r : this->game.rooms )
       {
          Room& room = r.second;
-         const auto& creeps = room.creeps;
-         if( room.energy == room.maxEnergy && getAmountOfCreepsWithRole( creeps, ROLE_WORKER ) < 3 )
+         spawnCreep( room );
+
+         for ( auto& c : room.creeps )
          {
-            spawnCreep( game, room, api );
+            Creep& creep = c.second;
+            this->evaluateCreepAction( creep );
+            this->executeCreepAction( creep );
          }
       }
       return STATUS_OK;
@@ -64,15 +39,58 @@ namespace core
 
    void Core::loop()
    {
-      api::Api api;
-      game::Game game;
       Core core;
-      printLog( api, core, game, "init game" );
-      api.initGame( game );
-      printLog( api, core, game, "core run" );
-      core.run( game, api );
-      printLog( api, core, game, "END" );
+      core.log( "core initialized" );
+
+      core.log( "core run" );
+      core.run();
+
+      core.log( "END" );
       std::cout << '\n';
+   }
+   void Core::log( const char * msg )
+   {
+      using namespace core::log;
+      std::cout << *this << "[ " << std::fixed << std::setprecision(2) << this->api.getCpuTime()
+                << " ]" << Loggable::padding( msg, 20 ) << std::endl;
+   }
+
+   core::status_t Core::spawnCreep( core::game::Room& room )
+   {
+      using namespace core::game;
+      using namespace core;
+      const auto& creeps = room.creeps;
+      status_t status = STATUS_OK;
+
+      if( room.energy == room.maxEnergy && Game::getAmountOfCreepsWithRole( creeps, ROLE_WORKER ) < 3 )
+      {
+         do
+         {
+            creepBody_t body;
+
+            auto spawn = find_if( room.structures, [&]( const auto& s ){ return s.second.type == STRUCTURE_SPAWN
+                                                                             && s.second.isWorking == false
+                                                                             && s.second.my; } );
+            status = this->api.spawnCreep( spawn->second,
+                                           Game::createCreepName( this->game ),
+                                           ROLE_WORKER,
+                                           Game::createCreepBody( room.energy, creepBody_t{ BODYPART_MOVE, BODYPART_WORK, BODYPART_CARRY } )
+                                         );
+         }
+         while( status == -3 );
+      }
+      return status;
+   }
+
+   core::status_t Core::evaluateCreepAction( core::game::Creep& creep )
+   {
+      //Action& action =
+      return STATUS_OK;
+   }
+
+   status_t Core::executeCreepAction( game::Creep& creep )
+   {
+      return game::ActionFactory::getAction( creep.getAction() ).run( this->api, creep );
    }
 }
 

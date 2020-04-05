@@ -1,7 +1,7 @@
 Object.defineProperty(Creep.prototype, 'role', {
    get: function() {
        if (this._role == undefined) {
-           if (!this.memory.role == undefined) {
+           if (this.memory.role == undefined) {
                this.memory.role = ROLE_UNDEFINED;
            }
            this._role = this.memory.role;

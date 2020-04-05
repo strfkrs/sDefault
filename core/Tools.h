@@ -7,12 +7,7 @@
 #include "Type.h"
 namespace core
 {
-
-      extern inline unsigned short getRand( unsigned short max )
-      {
-         std::srand(std::time(nullptr));
-         return std::rand() % max;
-      }
+      extern unsigned short getRand( unsigned short max );
 
       template<class K, class V, class UnaryPredicate>
       typename std::map<K,V>::const_iterator find_if( const std::map<K,V>& map, UnaryPredicate p )

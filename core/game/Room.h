@@ -2,11 +2,11 @@
 #include <string>
 #include <map>
 #include <iomanip>
-#include "Loggable.h"
+#include "../Loggable.h"
+#include "../Type.h"
+#include "../api/ApiType.h"
 #include "Creep.h"
 #include "Structure.h"
-#include "Type.h"
-#include "ApiType.h"
 
 namespace core
 {

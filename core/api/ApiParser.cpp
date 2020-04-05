@@ -1,16 +1,15 @@
-#include "ApiParser.h"
-#include "Game.h"
-#include "Storable.h"
-#include "Creep.h"
-#include "Room.h"
-#include "Structure.h"
-#include "Type.h"
 #include <iostream>
 #include <iomanip>
 #include <emscripten.h>
 #include <emscripten/val.h>
 #include <emscripten/bind.h>
-
+#include "ApiParser.h"
+#include "../game/Game.h"
+#include "../game/Storable.h"
+#include "../game/Creep.h"
+#include "../game/Room.h"
+#include "../game/Structure.h"
+#include "../Type.h"
 
 namespace core::api::parser
 {
@@ -89,7 +88,9 @@ namespace core::api::parser
          Creep creep = Creep( c->second,
                               (const name_t) c->first,
                               room,
-                              (Role)c->second["role"].as<int>(),
+                              (RoleType)c->second["role"].as<int>(),
+                              (ActionType)c->second["action"].as<int>(),
+                              (processStatus_t)c->second["processStatus"].as<int>(),
                               c->second["my"].as<bool>() );
          list.insert({ c->first, creep });
       }

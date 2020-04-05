@@ -1,7 +1,7 @@
 Object.defineProperty(Creep.prototype, 'targetName', {
    get: function() {
        if (this._targetName == undefined) {
-           if (!this.memory.targetName == undefined) {
+           if (this.memory.targetName == undefined) {
                this.memory.targetName = "";
            }
            this._targetName = this.memory.targetName;

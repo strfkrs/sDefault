@@ -6,8 +6,9 @@
 #include <emscripten/val.h>
 #include <emscripten/bind.h>
 
+#include "../game/Game.h"
+#include "../game/Creep.h"
 #include "Api.h"
-#include "Game.h"
 #include "ApiParser.h"
 #include "ApiStatistics.h"
 
@@ -65,7 +66,7 @@ namespace core
 
       status_t Api::spawnCreep( const game::Structure& spawn,
                                 const game::name_t& name,
-                                const game::Role role,
+                                const game::RoleType role,
                                 const game::creepBody_t& body )
       {
          using namespace emscripten;

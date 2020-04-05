@@ -1,7 +1,19 @@
 #include "Game.h"
-#include "Tools.h"
+#include "../Tools.h"
 namespace core::game
 {
+   unsigned short Game::getAmountOfCreepsWithRole( const creepList_t& creepList, const RoleType& role )
+   {
+      unsigned short amount = 0;
+      for( const auto c : creepList )
+      {
+         if( c.second.role == role )
+         {
+            amount++;
+         }
+      }
+      return amount;
+   }
    Creep * Game::findCreepByName( const name_t& name )
    {
       for ( auto& r : this->rooms )
@@ -35,7 +47,6 @@ namespace core::game
    }
    creepBody_t Game::createCreepBody( const energy_t availableEnergy, const creepBody_t strategy )
    {
-      std::cout << " creating creep body availableEnergy: " << availableEnergy << std::endl;
       energy_t remainingEnergy = availableEnergy;
       creepBody_t body;
       while( remainingEnergy > 0 )
@@ -43,7 +54,6 @@ namespace core::game
          for( auto& sb : strategy )
          {
             const energy_t nextCosts = creepBodyPartCostsMap.find(sb)->second;
-            std::cout << " remaining energy " << remainingEnergy << " nextCosts " << nextCosts << std::endl;
             if( remainingEnergy - nextCosts < 0 )
             {
                if ( sb == *( --strategy.end() ) )

@@ -1,7 +1,9 @@
 
 const Module = require('core-mod');
 require("CreepRole");
+require("CreepAction");
 require("CreepTargetName");
+require("CreepProcessStatus");
 require("ResourceCoreTypeID");
 require("StructureCoreTypeID");
 require("SpawnCreep");
@@ -20,6 +22,10 @@ const opts = {
 };
 
 const mod = Module(opts);
+
+console.log("=====================")
+console.log("===== init game =====")
+console.log("=====================")
 
 module.exports.loop = function () {
    if ( !coreIsInit ) { return; }
