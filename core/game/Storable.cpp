@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include "Storable.h"
+#include "../Tools.h"
 namespace core::game
 {
    std::ostream& Storable::toString( std::ostream & os )
@@ -49,5 +50,24 @@ namespace core::game
       }
       this->content.insert({ type, diff });
       return true;
+   }
+   const resourceQuantity_t Storable::getQuantityStored() const
+   {
+      resourceQuantity_t qty = 0;
+      for( const auto r : this->content )
+      {
+         qty += r.second;
+      }
+      return qty;
+   }
+
+   const resourceQuantity_t Storable::getFreeSpace() const
+   {
+      return this->maxQuantity - this->getQuantityStored();
+   }
+   const resourceQuantity_t Storable::getQuantityStored( const ResourceType& type ) const
+   {
+      const auto match = find_if( this->content, [&]( const auto& r ){ return r.first == type; } );
+      return ( match == this->content.end() ) ? 0 : match->second;
    }
 }

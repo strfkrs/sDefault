@@ -3,6 +3,7 @@
 #include "../game/Creep.h"
 #include "../game/Room.h"
 #include "../game/Structure.h"
+#include "../game/RoomObject.h"
 #include "ApiType.h"
 
 namespace core::api::parser
@@ -32,14 +33,18 @@ namespace core::api::parser
          {
             return os << Loggable::padding( "ApiParser", 12 );
          };
-         static void parseInitRooms( core::game::roomList_t& roomList,
-                                       const core::api::valMap_t& rooms );
+         static void parseInitRooms( core::game::Game* game,
+                                     core::game::roomList_t& roomList,
+                                     const core::api::valMap_t& rooms );
          static void parseInitCreeps( core::game::Room* room,
                                        core::game::creepList_t& list,
                                        const core::api::valMap_t& creeps );
          static void parseInitStructures( core::game::Room* room,
                                           core::game::structureList_t& list,
                                           const core::api::valMap_t& structures );
+         static void parseInitSources( core::game::Room* room,
+                                       core::game::roomObjectList_t& list,
+                                       const core::api::valMap_t& structures );
    };
 
 }

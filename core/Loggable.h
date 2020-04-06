@@ -24,8 +24,8 @@ namespace core::log
             std::string n(name);
             const char c = ' ';
             const unsigned char len = n.length();
-            const unsigned char lpad = ( width / 2 ) - (len / 2);
-            const unsigned char rpad = ( width / 2 ) - (len / 2) + ( ( len % 2 == 0 ) ? 1 : 0 );
+            const unsigned char lpad = ( width / 2 ) - (len / 2) + ( ( len % 2 == 0 ) ? 1 : 0 );
+            const unsigned char rpad = ( width / 2 ) - (len / 2);
 
             n.insert( n.begin(), lpad, c );
             n.append( rpad, c);

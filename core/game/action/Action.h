@@ -1,7 +1,7 @@
 #pragma once
-#include "Creep.h"
-#include "../api/Api.h"
-#include "../Loggable.h"
+#include "../Creep.h"
+#include "../../api/Api.h"
+#include "../../Loggable.h"
 namespace core::game
 {
    class Action : public log::Loggable

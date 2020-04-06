@@ -4,10 +4,12 @@
 #include "Loggable.h"
 #include "api/Api.h"
 #include "game/Game.h"
+#include "game/GameType.h"
 #include "game/Room.h"
 #include "game/Structure.h"
 #include "game/Creep.h"
-#include "game/ActionFactory.h"
+#include "game/action/ActionFactory.h"
+#include "game/StructureSpawn.h"
 
 namespace core
 {
@@ -25,7 +27,23 @@ namespace core
       for( auto& r : this->game.rooms )
       {
          Room& room = r.second;
-         spawnCreep( room );
+
+         if( room.energy == room.maxEnergy && Game::getAmountOfCreepsWithRole( room.creeps, ROLE_WORKER ) < 3 )
+         {
+            const creepBody_t bodyStrat{ BODYPART_MOVE, BODYPART_WORK, BODYPART_CARRY };
+
+            auto structure = find_if( room.structures, [&]( const auto& s ){ return s.second.type == STRUCTURE_SPAWN
+                                                                              && s.second.isWorking == false
+                                                                              && s.second.my; } );
+            if ( structure != room.structures.end() )
+            {
+               StructureSpawn& spawn = (StructureSpawn&) (structure->second);
+               spawn.spawnCreep( Game::createCreepName( this->game ),
+                                 ROLE_WORKER,
+                                 Game::parseBodyPartsFromCore( Game::createCreepBody( room.energy, bodyStrat ) )
+                               );
+            }
+         }
 
          for ( auto& c : room.creeps )
          {
@@ -54,43 +72,46 @@ namespace core
       std::cout << *this << "[ " << std::fixed << std::setprecision(2) << this->api.getCpuTime()
                 << " ]" << Loggable::padding( msg, 20 ) << std::endl;
    }
-
-   core::status_t Core::spawnCreep( core::game::Room& room )
+   status_t Core::evaluateCreepAction( game::Creep& creep )
    {
-      using namespace core::game;
-      using namespace core;
-      const auto& creeps = room.creeps;
-      status_t status = STATUS_OK;
+      using namespace game;
+      const creepList_t& roomCreeps = creep.room->creeps;
+      const unsigned short creepAmount = roomCreeps.size();
+      const unsigned short upgraderAmount = Game::getAmountOfCreepsWithAction( roomCreeps, ACTION_UPGRADE );
+      const unsigned short harvesterAmount = Game::getAmountOfCreepsWithAction( roomCreeps, ACTION_HARVEST_ENERGY );
+      const unsigned short repairerAmount = Game::getAmountOfCreepsWithAction( roomCreeps, ACTION_REPAIR );
+      const unsigned short refillerAmount = Game::getAmountOfCreepsWithAction( roomCreeps, ACTION_REFILL );
 
-      if( room.energy == room.maxEnergy && Game::getAmountOfCreepsWithRole( creeps, ROLE_WORKER ) < 3 )
+
+
+      if( creep.role == ROLE_WORKER && creep.getAction() == ACTION_IDLE )
       {
-         do
+         if( creep.getQuantityStored( RESOURCE_ENERGY ) == 0 )
          {
-            creepBody_t body;
-
-            auto spawn = find_if( room.structures, [&]( const auto& s ){ return s.second.type == STRUCTURE_SPAWN
-                                                                             && s.second.isWorking == false
-                                                                             && s.second.my; } );
-            status = this->api.spawnCreep( spawn->second,
-                                           Game::createCreepName( this->game ),
-                                           ROLE_WORKER,
-                                           Game::createCreepBody( room.energy, creepBody_t{ BODYPART_MOVE, BODYPART_WORK, BODYPART_CARRY } )
-                                         );
+            creep.setAction( ACTION_HARVEST_ENERGY );
          }
-         while( status == -3 );
       }
-      return status;
-   }
-
-   core::status_t Core::evaluateCreepAction( core::game::Creep& creep )
-   {
-      //Action& action =
+      if ( creep.getAction() == ACTION_HARVEST_ENERGY && creep.getActionStatus() == ACTION_STATUS_FINISHED )
+      {
+         if( upgraderAmount == 0 )
+         {
+            creep.setAction( ACTION_UPGRADE );
+         }
+         else if ( repairerAmount == 0 )
+         {
+            creep.setAction( ACTION_REPAIR );
+         }
+         else if ( refillerAmount == 0 )
+         {
+            creep.setAction( ACTION_REFILL );
+         }
+      }
       return STATUS_OK;
    }
 
    status_t Core::executeCreepAction( game::Creep& creep )
    {
-      return game::ActionFactory::getAction( creep.getAction() ).run( this->api, creep );
+      return game::ActionFactory::get( creep.getAction() ).run( creep );
    }
 }
 

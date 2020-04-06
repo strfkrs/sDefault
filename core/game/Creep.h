@@ -4,75 +4,76 @@
 #include "../Loggable.h"
 #include "../api/ApiType.h"
 #include "../Type.h"
+#include "Storable.h"
 #include "GameType.h"
+#include "Position.h"
 
 namespace core::game
 {
-   const static std::map<CreepBodyPart,std::string> creepBodyPartMap
-   {
-      { BODYPART_MOVE, "move" },
-      { BODYPART_WORK, "work" },
-      { BODYPART_CARRY, "carry" },
-      { BODYPART_ATTACK, "attack" },
-      { BODYPART_RANGED_ATTACK, "ranged_attack" },
-      { BODYPART_TOUGH, "tough" },
-      { BODYPART_HEAL, "heal" },
-      { BODYPART_CLAIM, "claim" }
-   };
-   const static std::map<CreepBodyPart,energy_t> creepBodyPartCostsMap
-   {
-      { BODYPART_MOVE, 50 },
-      { BODYPART_WORK, 100 },
-      { BODYPART_CARRY, 50 },
-      { BODYPART_ATTACK, 80 },
-      { BODYPART_RANGED_ATTACK, 150 },
-      { BODYPART_TOUGH, 10 },
-      { BODYPART_HEAL, 250 },
-      { BODYPART_CLAIM, 600 }
-   };
-   typedef std::vector<CreepBodyPart> creepBody_t;
-   class Creep : public log::Loggable
+   class Creep : public Storable, public log::Loggable
    {
       public:
          const api::val_t val;
-         const Room * room;
          const name_t name;
+         const health_t maxHealth;
+         health_t health;
+         const Room * room;
+         const Position pos;
          const RoleType role;
          const bool my;
       private:
+         name_t target;
          ActionType action;
-         processStatus_t processStatus;
+         actionStatus_t actionStatus;
       public:
          Creep( const api::val_t& _val,
                   const std::string& _name,
+                  const health_t _health,
+                  const health_t _maxHealth,
                   const Room* _room,
+                  const Position _pos,
                   const RoleType _role,
                   const ActionType _action,
-                  const processStatus_t _processStatus,
-                  const bool& _my ) :  val(_val),
-                                       name(_name),
-                                       room(_room),
-                                       role(_role),
-                                       action(_action),
-                                       processStatus(_processStatus),
-                                       my(_my) { std::cout << this << " created " << std::endl; };
+                  const actionStatus_t _actionStatus,
+                  const name_t& _target,
+                  const bool& _my,
+                  const Storable& storage )
+               :  Storable( storage ),
+                  val(_val),
+                  name(_name),
+                  health(_health),
+                  maxHealth(_maxHealth),
+                  room(_room),
+                  pos(_pos),
+                  role(_role),
+                  action(_action),
+                  actionStatus(_actionStatus),
+                  target(_target),
+                  my(_my) { std::cout << this << " created " << std::endl; };
 
       public:
-         ActionType       getAction() { return this->action; }
-         processStatus_t  getProcessStatus() { return this->processStatus; }
-         void             setAction( const ActionType& action ) { this->action = action; }
-         void             setProcessStatus( const processStatus_t& status ) { this->processStatus = status; }
+         const ActionType     getAction() const { return this->action; }
+         void                 setAction( const ActionType& action );
+         void                 setAction( const ActionType& action, const bool resetActionStatus );
+         const name_t&        getTarget() const { return this->target; }
+         void                 setTarget( const name_t& target );
+         const actionStatus_t getActionStatus() const { return this->actionStatus; }
+         void                 setActionStatus( const actionStatus_t& status );
       public:
          status_t say( const std::string& msg );
+         status_t moveTo( const Position& pos );
+
       public:
          std::ostream& toString( std::ostream & os ) override
          {
             return os << Loggable::padding( "Creep", 12 )
                       << "[ " << this->name
                       << " ][ role: " << this->role
+                      << " ][ my: " << ((this->my) ? 1 : 0)
                       << " ][ action: " << this->action
-                      << " ][ processStatus: " << this->processStatus
-                      << " ][ my: " << ((this->my) ? 1 : 0) << " ]";
+                      << " ][ actionStatus: " << this->actionStatus
+                      << " ][ target: " << this->target
+                      << " ]" << (Position&)(this->pos);
          };
    };
 

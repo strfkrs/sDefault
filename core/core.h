@@ -22,7 +22,6 @@ namespace core
          status_t run();
       private:
          void log( const char * msg );
-         status_t spawnCreep( core::game::Room& room );
          status_t evaluateCreepAction( core::game::Creep& creep );
          status_t executeCreepAction( core::game::Creep& creep );
    };

@@ -1,8 +1,8 @@
 #pragma once
-#include "../api/Api.h"
-#include "../Tools.h"
+#include "../../api/Api.h"
+#include "../../Tools.h"
 #include "Action.h"
-#include "Creep.h"
+#include "../Creep.h"
 namespace core::game
 {
    class ActionIdle : public Action
@@ -18,6 +18,7 @@ namespace core::game
 
    status_t ActionIdle::run( Creep& creep )
    {
+      std::cout << this << creep << std::endl;
       if ( getRand( 5 ) == 0 )
       {
          return creep.say( creep.name );

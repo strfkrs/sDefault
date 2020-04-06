@@ -33,44 +33,31 @@ namespace core
 {
    namespace api
    {
-      std::string parseBodyPartsFromCore( const game::creepBody_t& parts )
-      {
-         std::string out;
-         for ( const auto& p: parts )
-         {
-            out += ( ( out.size() > 0 ) ? ";" : "" )
-                   + game::creepBodyPartMap.find(p)->second;
-         }
-         return std::move( out );
-      }
 
 
       bool Api::initGame( game::Game& game )
       {
+         std::cout << this << " initializing game " << std::endl;
          using namespace parser;
          const valMap_t rooms = getMap( gameVal["rooms"], this->objectVal );
          const valMap_t creeps = getMap( gameVal["creeps"], this->objectVal );
          const valMap_t structures = getMap( gameVal["structures"], this->objectVal );
 
 
-         ApiParser::parseInitRooms( game.rooms, rooms );
+         std::cout << this << " parsing rooms " << std::endl;
+         ApiParser::parseInitRooms( &game, game.rooms, rooms );
 
          for( auto& r : game.rooms )
          {
+            const valMap_t sources = getMap( r.second.val["sources"], this->objectVal );
+            std::cout << this << " parsing creeps " << std::endl;
             ApiParser::parseInitCreeps( &(r.second), r.second.creeps, creeps );
+            std::cout << this << " parsing structures " << std::endl;
             ApiParser::parseInitStructures( &(r.second), r.second.structures, structures );
+            std::cout << this << " parsing sources " << std::endl;
+            ApiParser::parseInitSources( &(r.second), r.second.roomObjects, sources );
          }
-
          return true;
-      }
-
-      status_t Api::spawnCreep( const game::Structure& spawn,
-                                const game::name_t& name,
-                                const game::RoleType role,
-                                const game::creepBody_t& body )
-      {
-         using namespace emscripten;
-         return spawn.val.call<int>( "spawnCreep", parseBodyPartsFromCore( body ), name, (int)role );
       }
 
       cpuTime_t Api::getCpuTime()

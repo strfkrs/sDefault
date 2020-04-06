@@ -1,7 +1,15 @@
 #pragma once
 #include <map>
+#include "../Type.h"
 namespace core::game
 {
+   enum ActionStatus : unsigned char
+   {
+      ACTION_STATUS_INIT = 0,
+      ACTION_STATUS_PROCESSING,
+      ACTION_STATUS_FINISHED = 10
+   };
+
    enum StructureType : unsigned char
    {
       STRUCTURE_SPAWN,
@@ -26,9 +34,17 @@ namespace core::game
       STRUCTURE_FACTORY,
       STRUCTURE_INVADER_CORE,
    };
+   enum RoomObjectType : unsigned char
+   {
+      ROOM_OBJECT_SOURCE
+   };
    enum ActionType : unsigned char
    {
-      ACTION_IDLE = 0
+      ACTION_IDLE = 0,
+      ACTION_HARVEST_ENERGY,
+      ACTION_UPGRADE,
+      ACTION_REPAIR,
+      ACTION_REFILL
    };
    enum RoleType : unsigned char
    {
@@ -45,6 +61,30 @@ namespace core::game
       BODYPART_HEAL,
       BODYPART_CLAIM
    };
+   const static std::map<CreepBodyPart,std::string> creepBodyPartMap
+   {
+      { BODYPART_MOVE, "move" },
+      { BODYPART_WORK, "work" },
+      { BODYPART_CARRY, "carry" },
+      { BODYPART_ATTACK, "attack" },
+      { BODYPART_RANGED_ATTACK, "ranged_attack" },
+      { BODYPART_TOUGH, "tough" },
+      { BODYPART_HEAL, "heal" },
+      { BODYPART_CLAIM, "claim" }
+   };
+   const static std::map<CreepBodyPart,storageQuantity_t> creepBodyPartCostsMap
+   {
+      { BODYPART_MOVE, 50 },
+      { BODYPART_WORK, 100 },
+      { BODYPART_CARRY, 50 },
+      { BODYPART_ATTACK, 80 },
+      { BODYPART_RANGED_ATTACK, 150 },
+      { BODYPART_TOUGH, 10 },
+      { BODYPART_HEAL, 250 },
+      { BODYPART_CLAIM, 600 }
+   };
+   typedef std::vector<CreepBodyPart> creepBody_t;
+
    enum ResourceType : unsigned char
    {
       RESOURCE_ENERGY, RESOURCE_POWER,

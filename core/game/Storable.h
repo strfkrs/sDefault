@@ -26,13 +26,16 @@ namespace core::game
                                                                content(_content) {};
       public:
          void operator=( const Storable & e ) {
-            this->content = e.content;
-            this->maxQuantity = e.maxQuantity;
-            this->singleResourceType = e.singleResourceType;
+            this->content = std::move( e.content );
+            this->maxQuantity = std::move( e.maxQuantity );
+            this->singleResourceType = std::move( e.singleResourceType );
          }
       /*protected:
          Storable( const Storable& e ) = default;*/
       public:
+         const resourceQuantity_t getFreeSpace() const;
+         const resourceQuantity_t getQuantityStored() const;
+         const resourceQuantity_t getQuantityStored( const ResourceType& type ) const;
          const storage_t& getContent() const { return this->content; }
          const bool changeResource( const ResourceType type, const resourceQuantity_t diff );
 
